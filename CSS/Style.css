@@ -4,9 +4,11 @@ body
 {
 	margin: 0;
 	padding: 0;
-	background: url(../Images/DSC_0128.jpg);
+	background: url(../Images/arr.jpg);
 	background-size: cover;
 	font-family: sans-serif;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
 .loginBox
 {
@@ -19,6 +21,9 @@ body
 	padding: 80px 40px;
 	box-sizing: border-box;
 	background: rgba(0,0,0,.5);
+	float: left;
+	display: inline-block;
+	color: white;
 }
 .user
 {
@@ -95,8 +100,8 @@ h2
 }
 .text{
 	    border-bottom: 1px solid #fff;
-    width: 224px;
-    height: 22px;
+    width: 100%;
+    height: 26px;
     display: inline-block;
     margin-top: 10px;
 }
@@ -122,4 +127,18 @@ i.fas.fa-unlock {
     height: auto;
     text-align: center;
 
+}
+.loginGestion {
+
+	position: absolute;
+	top: 50%;
+	left: 7%;
+	transform: translate(-50%,-50%);
+	width: 350px;
+	height: 420px;
+	padding: 80px 40px;
+	box-sizing: border-box;
+	background: rgba(0,0,0,.5);
+	float: left;
+	display: inline-block;
 }

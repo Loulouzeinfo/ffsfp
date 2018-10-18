@@ -11,23 +11,17 @@
 	<body>
 		<div class="loginBox">
 			<img src="Images/POP.gif" class="user">
-			<h2><center>Login</center></h2>
+			<h2>Log In Here</h2>
 			<form>
 				<div class="text">
                 <i class="fa fa-user"></i>
-				<input type="text" name="mail" placeholder="Introduisez votre adresse mail"/>
+				<input type="text" name="" placeholder="Enter Email">
 				</div>
-
 				<div class="text">
-			    <i class="fas fa-unlock"></i>
-				<input type="password" name="password" placeholder="••••••••••"/>
-                </div>
-
-			   
-			   
-				<input type="submit" name="submit" value="Sign In">
+				<input type="password" name="" placeholder="••••••">
+				<input type="submit" name="" value="Sign In">
 				<a href="#">Forget Password</a>
-			
+			</div>
 			</form>
 		</div>
 	</body>

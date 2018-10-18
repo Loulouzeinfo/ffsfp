@@ -53,12 +53,15 @@ h2
 .loginBox input[type="password"]
 {
 	border: none;
-	border-bottom: 1px solid #fff;
 	background: transparent;
 	outline: none;
-	height: 40px;
+	/*height: 40px;*/
 	color: #fff;
 	font-size: 16px;
+	float: left;
+    width: 80%;
+    height: auto;
+    margin-left: 5px;
 }
 ::placeholder
 {
@@ -74,11 +77,13 @@ h2
 	background: #ff267e;
 	cursor: pointer;
 	border-radius: 20px;
+	margin-top: 20px;
 }
 .loginBox input[type="submit"]:hover
 {
 	background: #efed40;
 	color: #262626;
+
 }
 .loginBox a
 {
@@ -86,7 +91,35 @@ h2
 	font-size: 14px;
 	font-weight: bold;
 	text-decoration: none;
+
 }
 .text{
-	margin: 0px;
+	    border-bottom: 1px solid #fff;
+    width: 224px;
+    height: 22px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+
+i.fa.fa-user {
+
+	    font-weight: 900;
+    color: white;
+    float: left;
+    width: auto;
+    height: auto;
+    text-align: center;
+
+}
+
+i.fas.fa-unlock {
+
+	    font-weight: 900;
+    color: white;
+    float: left;
+    width: auto;
+    height: auto;
+    text-align: center;
+
 }

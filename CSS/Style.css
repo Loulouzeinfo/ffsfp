@@ -1,14 +1,16 @@
 
 
-body
+body.index
 {
 	margin: 0;
 	padding: 0;
-	background: url(../Images/arr.jpg);
+	background: url(../Images/arr.jpg) no-repeat  fixed;
 	background-size: cover;
 	font-family: sans-serif;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
+	
+	 -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+
+
 }
 .loginBox
 {
@@ -141,4 +143,31 @@ i.fas.fa-unlock {
 	background: rgba(0,0,0,.5);
 	float: left;
 	display: inline-block;
+}
+
+
+div.form-row.profile{
+
+	    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+        margin-top: 25px;
+
+}
+fieldset{
+    border: 1px groove green !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCDDFF', endColorstr='#99AACC');
+}
+legend{
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
 }

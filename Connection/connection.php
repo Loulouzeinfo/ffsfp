@@ -4,12 +4,11 @@ include("../Fonction/fonction.php");
 
 $v1='';
 $v2='';
+$tab=array();
 
 if(isset($_POST['submit'])){
 
-
-
-	$mail= trim(verif($_POST['mail']));
+	$mail= trim(strtolower(verif($_POST['mail'])));
 	$password= verif($_POST['password']);
 
 	   if(!empty($mail) && !empty($password)){
@@ -18,9 +17,9 @@ if(isset($_POST['submit'])){
                 
                $v1="<script>
                swal({
-                title: \"Oups!\",
+                title: \"Oops!\",
                 text: \"votre adresse mail n'est valide!\",
-                type: \"success\"
+                 icon: \"error\"
                 }).then(function() {
                 window.location = \"../index.php\";
                  });
@@ -34,47 +33,43 @@ if(isset($_POST['submit'])){
 
                   include("../DB/base.php");
                   $password= $mysqli->real_escape_string ($password);
-                  $password= hash('sha256', $_POST['password']);
-                  $donn=$mysqli->query("SELECT * FROM personne WHERE mail='$mail' AND password='$password'")or die(mysqli_error($mysqli));
-                  $res= $donn->fetch_array();
-                  if($res['id_role']==1){
-                  	$_SESSION['login']=$mail;
-		            header("Location:../Administrateur/Accueil.php");
+                  $password= hash('sha256', $password);
 
-		            exit;
+                  $sql="SELECT assoc_per_rol.id_role FROM personne,role,assoc_per_rol WHERE personne.id_personne=assoc_per_rol.id_personne AND role.id_role=assoc_per_rol.id_role AND
+                    mail='$mail' AND password='$password'";
+                  $donn=$mysqli->query($sql)or die(mysqli_error($mysqli));
+                   while ($res= $donn->fetch_array()) {
+                    $tab[]=$res['id_role'];
+                  }
+
+                  if(in_array(1,$tab)){
+                  	$_SESSION['login']=$mail;
+		                header("Location:../Administrateur/accueil.php");
+                    $mysqli->close();
+		                 exit;
 
                   }else {
                   	$v2="<script>
-
                  swal({
-                title: \"Oups!\",
+                title: \"Oops!\",
                 text: \"Mot de passe incorrect!\",
-                type: \"success\"
+                icon: \"error\"
                 }).then(function() {
                 window.location = \"../index.php\";
                  });
                
                </script>";
                   }
-
-
                
              }
 
-           
-
-
-
+          
 	   }
 
              
 	}else 
 
 	header("Location:../index.php");
-
-
-
-
 
 
 ?>

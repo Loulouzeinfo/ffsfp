@@ -1,9 +1,11 @@
 <?php
-//index.php
+include("Fonction/fonction.php");
 
 $error = '';
 $email = '';
 $mailnx='';
+$ran=aleatoire(6,5);
+
 
 
 function clean_text($string)
@@ -16,27 +18,46 @@ function clean_text($string)
 
 if(isset($_POST["submit"]))
 {
+	$email = strtolower(clean_text($_POST["email"]));
 
 	if(empty($_POST["email"]))
 	{
-		$error .= '<p><label class="text-danger">Please Enter your Email</label></p>';
+		$error = "<script>
+                swal({
+                title: \"Oops!\",
+                text: \"Entrer votre adresse mail s'il vous plaît ! \",
+                icon: \"warning\"
+                }).then(function() {
+                window.location = \"mot_de_passe_oublié.php\";
+                 });
+               
+               </script>";
 	}
-	else
+	elseif(!filter_var($email, FILTER_VALIDATE_EMAIL))
 	{
-		$email = clean_text($_POST["email"]);
-		if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-		{
-			$error .= '<p><label class="text-danger">Invalid email format</label></p>';
-		}
-	}
+		    
+			   $error = "<script>
+                swal({
+                title: \"Oops!\",
+                text: \"Le format de votre adresse mail est incorrect ! \",
+                icon: \"warning\"
+                }).then(function() {
+                window.location = \"mot_de_passe_oublié.php\";
+                 });
+               
+               </script>";
+		}else{
 
-	include("DB/base.php");
-	$donn=$mysqli->query("SELECT * FROM personne WHERE mail='$email'")or die(mysqli_error($mysqli));
+
+		include("DB/base.php");
+
+	$donn=$mysqli->query("SELECT * FROM personne WHERE mail='$email' AND uid_inscription ='NULL' ")or die(mysqli_error($mysqli));
 	$res= $donn->num_rows;
-	if($res==1){
-                     
-                     if($error == '')
+
+	if($res==1)                    
 	{
+        $sql = "UPDATE personne SET uid='$ran' WHERE mail='$email'";
+        $mysqli->query($sql);
 		require 'class/class.phpmailer.php';
 		$mail = new PHPMailer;
 		$mail -> charSet = "UTF-8";
@@ -54,34 +75,61 @@ if(isset($_POST["submit"]))
 		$mail->WordWrap = 50;							//Sets word wrapping on the body of the message to a given number of characters
 		$mail->IsHTML(true);							//Sets message type to HTML				
 		$mail->Subject = utf8_decode('réinitialisation de mot de passe');				//Sets the Subject of the message
-		$mail->Body = 'Cliquez sur le lien de réinitialisation figurant dans ce message.<br/> http://localhost/ffsfp/profile.php?rmail='.$email;				//An HTML or plain text message body
+		$mail->Body = '<p>Bonjour</p>
+		  <p>Merci de cliquer sur le lien ci-dessous afin de (ré)initialiser votre mot de passe:<p><br/>
+          http://localhost/ffsfp/reset.php?rmail='.$email.'&uid='.$ran.'<br/>
+          <p>Si le clic du lien ne fonctionne pas, merci de le copier/coller dans la barre d\'adresse de votre navigateur.</p><br/>
+          Bien cordialement<br/>
+          L\'équipe de FFSFP';			                //An HTML or plain text message body
 		if($mail->Send())								//Send an Email. Return true on success or false on error
 		{
-			$error = '<label class="text-success">Vérifiez votre boîte de réception. FFSFP envoie immédiatement un message à l\'adresse email associée à votre compte.</label>';
+			$error = "<script>
+                swal({
+                title: \"Oops!\",
+                text: \"Vérifiez votre boîte de réception. FFSFP envoie immédiatement un message à l\'adresse email associée à votre compte. \",
+                icon: \"success\"
+                }).then(function() {
+                window.location = \"index.php\";
+                 });
+               
+               </script>";
+               
 		}
 		else
 		{
-			$error = '<label class="text-danger">There is an Error</label>';
+			
 			echo "mail === ". $mail->ErrorInfo;
 		}
 		
-		$email = '';
-		
-	}
-
 	}else{
 
-        $mailnx='<SCRIPT LANGUAGE="JavaScript"> swal("l\'adresse mail n\'existe pas ");</SCRIPT>';
-		
-                  }
+        $error="<script>
+                swal({
+                title: \"Oops!\",
+                text: \"l'adresse mail n'existe pas \",
+                icon: \"error\"
+                }).then(function() {
+                window.location = \"mot_de_passe_oublié.php\";
+                 });
 
-	}
+                 </script>";
+               
+		
+            }
+
+        }
+
+	
+}
+	
 
 
 
 	
 
 ?>
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -116,7 +164,7 @@ if(isset($_POST["submit"]))
 			</div>
 		</div>
 
-		<?php  echo $mailnx;  ?>
+		<?php    echo $error ;?>
 	</body>
 </html>
 

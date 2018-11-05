@@ -24,8 +24,11 @@ body.index
 	box-sizing: border-box;
 	background: rgba(0,0,0,.5);
 	float: left;
+	border-radius: 30px;
+    box-shadow: 12px 12px 2px 1px #212529;
 	display: inline-block;
 	color: white;
+	  
 }
 .user
 {
@@ -158,16 +161,81 @@ div.form-row.profile{
         margin-top: 25px;
 
 }
-fieldset{
-    border: 1px groove green !important;
-    padding: 0 1.4em 1.4em 1.4em !important;
-    margin: 0 0 1.5em 0 !important;
-    -webkit-box-shadow:  0px 0px 0px 0px #000;
-            box-shadow:  0px 0px 0px 0px #000;
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCDDFF', endColorstr='#99AACC');
+
+div.boxx{
+
+position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: auto;
+	height: auto;
+	padding: 80px 40px;
+	box-sizing: border-box;
+	background: rgba(0,0,0,.5);
+	float: left;
+	display: inline-block;
+	color: white;
+	margin-top: 100px;
+	margin-bottom: : 100px;
+	    font-size: 12px;
+
+
+
 }
-legend{
-    font-size: 1.2em !important;
-    font-weight: bold !important;
-    text-align: left !important;
+
+img#imgadm{
+
+	vertical-align: middle;
+    border-style: none;
+    display: inline-block;
+    float: left;
+    height: 60px;
+
+}
+
+
+div.tab{
+	overflow: scroll;
+    width: 94%;
+    margin-left: 34px;
+    margin-right: 10px;
+    margin-top: 44px;
+    height: 470px;
+}
+
+#poli{
+	font-size: unset;
+    color: white;
+    width: 420px;
+
+}
+img#imgadmm{
+	height: 80px;
+}
+
+ul.navbar-nav.ml-auto.top{
+
+	    margin-top: 47px;
+}
+nav.navbar.fixed-bottom.navbar-light.bg-light.boto{
+	font-size: 9px;
+    height: 106px;
+    color: black;
+}
+
+footer {
+      position: relative;
+    /* bottom: -5px; */
+    font-size: 9px;
+    /* display: block; */
+    /* margin-top: 33px; */
+    top: 430px;
+    margin-bottom: 5px;
+}
+
+div.jumbotron.jumbotron-fluid.ajoutad{
+
+	margin: 15px;
+    border-radius: 34px;
 }

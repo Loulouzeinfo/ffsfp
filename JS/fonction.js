@@ -63,27 +63,31 @@ if(se !=''){
 
 
 
-function dialogsuccess(mot){
+function dialogsuccess(mot,chemin){
 
 
  var e= swal({
                text: mot,
                icon: "success"
 
-             });
+             }).then(function() {
+                window.location = chemin;
+              });
  return e;
 
 
 }
 
-function dialoginfo(mot){
+function dialoginfo(mot,chemin){
 
 
  var e= swal({
                text: mot,
                icon: "info"
 
-             });
+             }).then(function() {
+                window.location = chemin;
+              });
  return e;
 
 

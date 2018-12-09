@@ -51,7 +51,7 @@ header("Location:../index.php");
                 $sqlD="INSERT INTO diplome(libelle_diplome,montant_diplome) VALUES ('$cotisation','$montant' )";
                 insertDB($sqlD);
 
-                $v1="<script> dialogsuccess(\"Enregistré\"); </script>";
+                $v1="<script> dialogsuccess(\"Enregistré\",\"ParamDiplome.php\"); </script>";
 
 
  
@@ -61,7 +61,7 @@ header("Location:../index.php");
 
        }else{
 
-            $v1="<script> dialoginfo(\"Tous les champs sont Obligatoirs !\"); </script>";
+            $v1="<script> dialoginfo(\"Tous les champs sont Obligatoirs !\",\"ParamDiplome.php\"); </script>";
        }
   }
 

@@ -117,11 +117,12 @@ if(isset($_GET['supp'])){
 
 <div class="container red" style="color: red; text-align: center;  margin-top: 20px;" >
 </div>
+</br>
 
 
 
-<div class="tab">
-<table class="table table-striped" id="p" style="overflow-y:scroll" >
+<div class="table-wrapper-scroll-y">
+<table class="table table-striped">
   <thead class="thead-dark">
     <tr>
       <th scope="col">Numéro d'adérents</th>

@@ -60,6 +60,27 @@ header("Location:../index.php");
   while($resD= $donndip->fetch_array()){
      $tabD[]=$resD;
   }
+
+
+  if(isset($_GET['suppC'])){
+
+      if(!empty($_GET['suppC'])){
+
+        $supC= $mysqli->real_escape_string(trim(verif($_GET['suppC'])));
+
+        $reqsuppC="DELETE FROM cotisation WHERE  id_cotisation= '$supC'";
+        $donn=$mysqli->query($reqsuppC)or die(mysqli_error($mysqli));
+        $v1="<script> dialogsuccess(\"Supprimé\",\"historique.php\"); </script>";
+        
+             }else{
+
+               $v1="<script> dialoginfo(\"Suppression impossible\", \"historique.php\"); </script>";
+               
+
+             }
+                 
+
+  }
 }
 
 
@@ -107,7 +128,7 @@ header("Location:../index.php");
       <td>".utf8_encode($key['montant'])." € </td>
       <td>".utf8_encode($key['date_validite'])."</td>
       <td>
-      <a href=\"historique.php?supp=".utf8_encode($key['id_cotisation'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
+      <a href=\"historique.php?suppC=".utf8_encode($key['id_cotisation'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
       <a href=\"editeCotisation.php?edit=".utf8_encode($key['id_cotisation'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
 
       </td>
@@ -126,7 +147,7 @@ header("Location:../index.php");
     </div>
 
     <div class="HistoriqueForm">
-      <h3>historique de coût de formations</h3>
+      <h3>Historique de coût de formations</h3>
 
       <div class="table-wrapper-scroll-y">
       <table class="table table-striped " >
@@ -146,7 +167,7 @@ header("Location:../index.php");
       <th scope=\"row\">".utf8_encode($key['libelle_diplome'])."</th>
       <td>".utf8_encode($key['montant_diplome'])." € </td>
       <td>
-      <a href=\"historique.php?supp=".utf8_encode($key['id_diplome'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
+      <a href=\"historique.php?suppD=".utf8_encode($key['id_diplome'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
       <a href=\"editeDiplome.php?edit=".utf8_encode($key['id_diplome'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
 
       </td>

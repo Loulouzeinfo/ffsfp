@@ -326,3 +326,25 @@ margin: 49px;
     border-radius: 3px;
     cursor:pointer; 
 }
+
+
+
+.HistoriqueForm{
+    height: 300px;
+    width: 100%;
+	
+
+}
+
+.HistoriqueCoti{
+	    height: 300px;
+    width: 100%;
+
+	
+}
+.table-wrapper-scroll-y {
+display: block;
+max-height: 250px;
+overflow-y: auto;
+-ms-overflow-style: -ms-autohiding-scrollbar;
+}

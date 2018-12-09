@@ -40,6 +40,31 @@ header("Location:../index.php");
   $respro= $donpro->fetch_array();
   $profile=$respro['prenom'];
 
+
+  if(isset($_POST['submit'])){
+
+       if(!empty($_POST['cotisation']) && !empty($_POST['montant'])){
+
+                 $cotisation= $mysqli->real_escape_string(trim(verif($_POST['cotisation'])));
+                 $montant= $mysqli->real_escape_string(trim(verif($_POST['montant'])));
+
+                $sqlD="INSERT INTO diplome(libelle_diplome,montant_diplome) VALUES ('$cotisation','$montant' )";
+                insertDB($sqlD);
+
+                $v1="<script> dialogsuccess(\"Enregistré\"); </script>";
+
+
+ 
+
+
+
+
+       }else{
+
+            $v1="<script> dialoginfo(\"Tous les champs sont Obligatoirs !\"); </script>";
+       }
+  }
+
     
   
   }
@@ -58,9 +83,7 @@ header("Location:../index.php");
 
   <title>Coût de diplôme</title>
   <link rel="stylesheet" href="../CSS/Style.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 
 

@@ -63,7 +63,31 @@ if(se !=''){
 
 
 
+function dialogsuccess(mot){
 
+
+ var e= swal({
+               text: mot,
+               icon: "success"
+
+             });
+ return e;
+
+
+}
+
+function dialoginfo(mot){
+
+
+ var e= swal({
+               text: mot,
+               icon: "info"
+
+             });
+ return e;
+
+
+}
 
 
    

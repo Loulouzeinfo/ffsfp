@@ -154,7 +154,6 @@ if(isset($_GET['data']))
        <label> Profession : </label>
        <input type=\"text\" class=\"form-control\" placeholder=".utf8_encode($ex['profession'])." readonly>
 
-)
 
       </div>
       <div class=\"modal-footer\">

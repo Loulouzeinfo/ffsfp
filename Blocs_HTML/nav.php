@@ -1,15 +1,15 @@
 <?php
-/*$t=array();
+/*$tableau=array();
 $s='';
 
-  $sql2="SELECT * FROM personne,role,assoc_per_rol WHERE mail='$sess' AND personne.id_personne=assoc_per_rol.id_personne
+  $reqsql="SELECT * FROM personne,role,assoc_per_rol WHERE mail='$sess' AND personne.id_personne=assoc_per_rol.id_personne
                  AND assoc_per_rol.id_role=role.id_role";
-                  $donpro= $mysqli->query($sql2)or die(mysqli_error($mysqli));
+                  $donpro= $mysqli->query($reqsql)or die(mysqli_error($mysqli));
                   while ($respro= $donpro->fetch_array()) {
                       # code...
-                    $t[] =$respro['libelle'];
+                    $tableau[] =$respro['libelle'];
                   }
-                  if (in_array("FORMATEUR", $t)) {
+                  if (in_array("FORMATEUR", $tableau)) {
 
 
 
@@ -18,14 +18,14 @@ $s='';
         FORMATEUR
       </a>
       <div class=\"dropdown-menu\">
-        <a class=\"dropdown-item\" href=\"\">Gestion de délégations </a>
-        <a class=\"dropdown-item\" href=\"\">Ajouter une délégation</a>
+        <a class=\"dropdown-item\" href=\"\">Espace Admin </a>
+        
         
       </div>
      
     </li>";
 
-                    
+                  
                   }*/
                  
 
@@ -71,7 +71,7 @@ $s='';
         <a class="dropdown-item" style="pointer-events: none; cursor: default;" href="">Financier </a>
          <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="cotisation.php"> Paramétrage des cotisations </a></li></ul>  
          <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="ParamDiplome.php"> Paramétrage du coût du diplôme </a></li></ul>
-         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="">Historiques</a></li></ul> 
+         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="historique.php">Historiques</a></li></ul> 
          <div class="dropdown-divider"></div>
         <a class="dropdown-item"style="pointer-events: none; cursor: default;" href="">Formation </a> 
          <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="cotisation.php"> Paramétrage Formation </a></li></ul>    
@@ -88,8 +88,6 @@ $s='';
       </div>
      
     </li>
-
-
 
 
     <li class="nav-item dropdown p">

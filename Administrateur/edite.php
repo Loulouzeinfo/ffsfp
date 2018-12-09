@@ -227,7 +227,7 @@ header("Location:../index.php");
 
 
   } //elsesubmit
-  $mysqli->close();
+
 }//elselogin
 
 

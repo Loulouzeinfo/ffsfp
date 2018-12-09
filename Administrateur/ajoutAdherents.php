@@ -18,8 +18,29 @@ header("Location:../index.php");
 
 }else{
 
+  
+  if(isset($_SESSION['action']) AND (time()-$_SESSION['action'])<300 ){
+
+    $_SESSION['action'] = time();
+
+
+  }else{
+
+         $v1="<script>
+               swal({
+                
+                text: \"Vous êtes déconnecté !\",
+                icon: \"info\"
+                }).then(function() {
+                window.location = \"../index.php\";
+                 });
+               
+               </script>";
+
+  }
+
   $sess=$_SESSION['login'];
-  $sql2="SELECT * FROM role ";
+  $sql2="SELECT * FROM role";
   $donnrole= $mysqli->query($sql2)or die(mysqli_error($mysqli));
   while ($resrole=$donnrole->fetch_array()) {
     
@@ -67,7 +88,6 @@ header("Location:../index.php");
         if(!filter_var($mailP, FILTER_VALIDATE_EMAIL)){
                $v1="<script>
                swal({
-                title: \"Oups!\",
                 text: \"votre adresse mail n'est pas valide !\",
                 icon: \"error\"
                 }).then(function() {
@@ -80,22 +100,14 @@ header("Location:../index.php");
 
                       
                 $donn=$mysqli->query("SELECT * FROM personne WHERE mail='$mailP'")or die(mysqli_error($mysqli));
-        $res= $donn->num_rows;                                  
+                $res= $donn->num_rows;                                  
  
          if ($res==0){
-
-               for ($i=0; $i <sizeof($choixP) ; $i++) { 
-       # code...
-             $sqlch="INSERT INTO assoc_per_rol(id_personne,id_role) VALUES ('$id_roleP',".$choixP[$i]." )";
-               insertDB($sqlch);
-                }
-
            
          if($selectP == "NULL"){
         
                 $v1="<script>
                swal({
-                title: \"Oups!\",
                 text: \"renseigner votre pays de naissance !\",
                 icon: \"error\"
                 }).then(function() {
@@ -104,9 +116,17 @@ header("Location:../index.php");
                
                </script>";
               }elseif($selectP != "France"){
+
+                for ($i=0; $i <sizeof($choixP) ; $i++) { 
+       # code...
+             $sqlch="INSERT INTO assoc_per_rol(id_personne,id_role) VALUES ('$id_roleP',".$choixP[$i]." )";
+               insertDB($sqlch);
+                } 
+
                     $sqlins="INSERT INTO personne (id_personne,nom,prenom,date_de_naissance,lieu_de_naissance,pays_naissance,departement_naissance,mail,uid_inscription) VALUES ('$id_roleP','$nomP','$prenomP','$dateP','$lieuP','$selectP','Etranger','$mailP', '$ran')";
                     insertDB($sqlins);
-                    require '../class/class.phpmailer.php';
+
+    require '../class/class.phpmailer.php';
     $mail = new PHPMailer;
     $mail -> charSet = "UTF-8";
     $mail->IsSMTP();                //Sets Mailer to send message using SMTP
@@ -116,24 +136,26 @@ header("Location:../index.php");
     $mail->Username = 'chikhouneloulouze@gmail.com';          //Sets SMTP username
     $mail->Password = 'Chikhounemouloud06';         //Sets SMTP password
     $mail->SMTPSecure = 'tls';              //Sets connection prefix. Options are "", "ssl" or "tls"
-    $mail->From = $mailP ;      //Sets the From email address for the essage
+    $mail->From = $mailP;      //Sets the From email address for the essage
     $mail->FromName = 'FFSFP';
     $mail->AddAddress($mailP, 'name');   //Adds a "To" address
       //Adds a "Cc" address
     $mail->WordWrap = 50;             //Sets word wrapping on the body of the message to a given number of characters
-    $mail->IsHTML(true);              //Sets message type to HTML       
+    $mail->IsHTML(true);
+       //Adds a "To" address
+      //Adds a "Cc" address
+                 //Sets message type to HTML       
     $mail->Subject = utf8_decode('Création d\'un compte FFSFP');       //Sets the Subject of the message
-    $mail->Body = '<p>Bonjour</p>
-                <p>veuillez compléter le formulaire d\'inscription en cliquant sur ce liens.</p> 
-                <p>https://localhost/ffsfp/Administrateur/inscription.php?mail='.$mailP.'& uid_inscription='.$ran.'</p>';      
+    $mail->Body = utf8_decode('<p>Bonjour</p>
+                <p>veuillez compléter le formulaire d\'inscription en cliquant sur ce lien.</p> 
+                <p>localhost/ffsfp/Administrateur/inscription.php?mail='.$mailP.'&uid_inscription='.$ran.'</p>');      
 
     if($mail->Send())               
     {
 
        $envoi="<script>
                swal({
-                title: \"Oups!\",
-                text: \"Vérifiez votre boîte de réception. FFSFP envoie immédiatement un message à l\'adresse email associée à votre compte. !\",
+                text: \"Vérifiez votre boîte de reception afin de valider votre inscription !\",
                 icon: \"success\"
                 }).then(function() {
                 window.location = \"gestion_adh.php\";
@@ -144,8 +166,7 @@ header("Location:../index.php");
        
         $envoi="<script>
                swal({
-                title: \"Oups!\",
-                text: \" Erreur\",
+                text: \" Erreur de l'envoi\",
                 icon: \"error\"
                 }).then(function() {
                 window.location = \"gestion_adh.php\";
@@ -162,10 +183,15 @@ header("Location:../index.php");
 
              $sqlins="INSERT INTO personne (id_personne,nom,prenom,date_de_naissance,lieu_de_naissance,pays_naissance,departement_naissance,mail,uid_inscription) VALUES ('$id_roleP','$nomP','$prenomP','$dateP','$lieuP','$selectP','$depnaissance','$mailP', '$ran')";
              insertDB($sqlins);
+             for ($i=0; $i <sizeof($choixP) ; $i++) { 
+       # code...
+             $sqlch="INSERT INTO assoc_per_rol(id_personne,id_role) VALUES ('$id_roleP',".$choixP[$i]." )";
+               insertDB($sqlch);
+                } 
 
 
-             require '../class/class.phpmailer.php';
-    $mail = new PHPMailer;
+            require '../class/class.phpmailer.php';
+      $mail = new PHPMailer;
     $mail -> charSet = "UTF-8";
     $mail->IsSMTP();                //Sets Mailer to send message using SMTP
     $mail->Host = 'smtp.gmail.com';   //Sets the SMTP hosts of your Email hosting, this for Godaddy
@@ -174,24 +200,26 @@ header("Location:../index.php");
     $mail->Username = 'chikhouneloulouze@gmail.com';          //Sets SMTP username
     $mail->Password = 'Chikhounemouloud06';         //Sets SMTP password
     $mail->SMTPSecure = 'tls';              //Sets connection prefix. Options are "", "ssl" or "tls"
-    $mail->From = $mailP ;      //Sets the From email address for the essage
+    $mail->From = $mailP;      //Sets the From email address for the essage
     $mail->FromName = 'FFSFP';
     $mail->AddAddress($mailP, 'name');   //Adds a "To" address
       //Adds a "Cc" address
     $mail->WordWrap = 50;             //Sets word wrapping on the body of the message to a given number of characters
-    $mail->IsHTML(true);              //Sets message type to HTML       
+    $mail->IsHTML(true);
+       //Adds a "To" address
+      //Adds a "Cc" address
+                 //Sets message type to HTML       
     $mail->Subject = utf8_decode('Création d\'un compte FFSFP');       //Sets the Subject of the message
-    $mail->Body = '<p>Bonjour</p>
-                <p>veuillez compléter le formulaire d\'inscription en cliquant sur ce liens.</p> 
-                <p>https://localhost/ffsfp/inscription.php?mail='.$mailP.'& uid_inscription='.$ran.'</p>';      
+    $mail->Body = utf8_decode('<p>Bonjour</p>
+                <p>veuillez compléter le formulaire d\'inscription en cliquant sur ce lien.</p> 
+                <p>localhost/ffsfp/Administrateur/inscription.php?mail='.$mailP.'&uid_inscription='.$ran.'</p>');          
 
     if($mail->Send())               
     {
 
        $envoi="<script>
                swal({
-                title: \"Oups!\",
-                text: \"Vérifiez votre boîte de réception. FFSFP envoie immédiatement un message à l\'adresse email associée à votre compte. !\",
+                text: \"Vérifiez votre boîte de reception afin de valider votre inscription !\",
                 icon: \"success\"
                 }).then(function() {
                 window.location = \"gestion_adh.php\";
@@ -202,7 +230,6 @@ header("Location:../index.php");
        
         $envoi="<script>
                swal({
-                title: \"Oups!\",
                 text: \" Erreur\",
                 icon: \"error\"
                 }).then(function() {
@@ -222,7 +249,6 @@ header("Location:../index.php");
 
                    $v3="<script>
                swal({
-                title: \"Oups!\",
                 text: \"l'adresse mail existe déja !\",
                 icon: \"error\"
                 }).then(function() {
@@ -255,8 +281,7 @@ header("Location:../index.php");
 }else{
                    $v3="<script>
                swal({
-                title: \"Oups!\",
-                text: \"tous les champs sont oblégatoires\",
+                text: \"Champs Obligatoirs\",
                 icon: \"error\"
                 }).then(function() {
                 window.location = \"ajoutAdherents.php\";
@@ -382,7 +407,7 @@ header("Location:../index.php");
   </div>
   <div class="form-group">
     <div class="form-check">
-    <label for="role">* Role : </label><br/>
+    <label for="role">* Role(s) : </label><br/>
       <?php 
              foreach ($role as $key1) {
             echo "<input class=\"form-check-input\" type=\"checkbox\" name=\"choix[]\" id=\"invalidCheck2\"  value=".$key1['id_role']."> 
@@ -399,7 +424,7 @@ header("Location:../index.php");
 </form>
   </div>
 <br/>
-  * LES CHAMPS SONT OBLEGATOIRES.
+  * Champs Obligatoirs.
 </div>
 
  <script>

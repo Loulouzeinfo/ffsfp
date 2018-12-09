@@ -1,13 +1,36 @@
 <?php  
  session_start();
  include("../DB/base.php");
+ include("../Fonction/fonction.php");
 $tab=array();
 $profile='';
+$v1='';
 
 if(!isset($_SESSION['login'])){ 
 header("Location:../index.php");
 
 }else{
+
+
+  if(isset($_SESSION['action']) AND (time()-$_SESSION['action'])<300 ){
+
+    $_SESSION['action'] = time();
+
+
+  }else{
+
+         $v1="<script>
+               swal({
+                
+                text: \"Vous êtes déconnecté !\",
+                icon: \"info\"
+                }).then(function() {
+                window.location = \"../index.php\";
+                 });
+               
+               </script>";
+
+  }
   $sess=$_SESSION['login'];
   $sql2= "SELECT * FROM personne WHERE mail='$sess'";
   $donpro= $mysqli->query($sql2)or die(mysqli_error($mysqli));
@@ -19,8 +42,8 @@ header("Location:../index.php");
   while($res= $donn->fetch_array()){
      $tab[]=$res;
   }
-
 }
+
 
 
   ?>
@@ -40,13 +63,14 @@ header("Location:../index.php");
  <?php    include("../Blocs_HTML/nav.php"); ?>
 
 
-<div class="jumbotron">
+<div class="jumbotron accueil">
   <div class="container">
-    <h1 class="display-4">Fluid jumbotron</h1>
-    <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+    <h1 class="display-4">Accueil</h1>
+    
   </div>
 </div>
 
+<?php   echo $v1; ?>
 
 
 <?php    include("../Blocs_HTML/footer.php"); ?>

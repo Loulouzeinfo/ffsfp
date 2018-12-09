@@ -13,8 +13,6 @@ $Prenom='Prénom';
 $immat='Immatriculation';
 $maill='';
 
-/*$dep= $mysqli->query("SELECT DISTINCT departement FROM villefrance ORDER BY departement")or die(mysqli_error($mysqli));
-$pays= $mysqli->query("SELECT * FROM t_pays")or die(mysqli_error($mysqli));*/
 
 if(isset($_GET['rmail']) && isset($_GET['uid'])){
 
@@ -29,7 +27,7 @@ if(isset($_GET['rmail']) && isset($_GET['uid'])){
 	     $row=$donn->num_rows;
 	     if($row>0){
 	     $res= $donn->fetch_array();
-       if($uid==$res['uid']){
+        if($uid==$res['uid']){
        $nom=$res['nom'];
        $Prenom=$res['prenom'];
        $immat=$res['id_personne'];
@@ -50,7 +48,7 @@ if(isset($_GET['rmail']) && isset($_GET['uid'])){
 
 	     }else{
 
-	     	$mailnul='<SCRIPT LANGUAGE="JavaScript"> swal("l\'adresse mail n\'exsite pas ! ");</SCRIPT>';
+	     	$mailnul='<SCRIPT LANGUAGE="JavaScript"> swal("Votre adresse mail n\'est pas reconnue ! ");</SCRIPT>';
 
 
 	     }
@@ -65,14 +63,12 @@ if(isset($_GET['rmail']) && isset($_GET['uid'])){
 
 }else{
 
-  //$prmail='<SCRIPT LANGUAGE="JavaScript"> swal("Il faut renseigner une adresse mail ! ");</SCRIPT>';
 
    $prmail="<script>
 
                 swal({
-                title: \"Oops!\",
                 text: \"Il faut renseigner une adresse mail ou bien un uid!\",
-                type: \"success\"
+                type: \"info\"
                 }).then(function() {
                 window.location = \"index.php\";
                  });

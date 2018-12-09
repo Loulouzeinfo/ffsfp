@@ -28,7 +28,7 @@ if(isset($_POST["submit"]))
                 text: \"Entrer votre adresse mail s'il vous plaît ! \",
                 icon: \"warning\"
                 }).then(function() {
-                window.location = \"mot_de_passe_oublié.php\";
+                window.location = \"motDePasseOublie.php\";
                  });
                
                </script>";
@@ -38,11 +38,10 @@ if(isset($_POST["submit"]))
 		    
 			   $error = "<script>
                 swal({
-                title: \"Oops!\",
                 text: \"Le format de votre adresse mail est incorrect ! \",
                 icon: \"warning\"
                 }).then(function() {
-                window.location = \"mot_de_passe_oublié.php\";
+                window.location = \"motDePasseOublie.php\";
                  });
                
                </script>";
@@ -75,18 +74,18 @@ if(isset($_POST["submit"]))
 		$mail->WordWrap = 50;							//Sets word wrapping on the body of the message to a given number of characters
 		$mail->IsHTML(true);							//Sets message type to HTML				
 		$mail->Subject = utf8_decode('réinitialisation de mot de passe');				//Sets the Subject of the message
-		$mail->Body = '<p>Bonjour</p>
-		  <p>Merci de cliquer sur le lien ci-dessous afin de (ré)initialiser votre mot de passe:<p><br/>
-          http://localhost/ffsfp/reset.php?rmail='.$email.'&uid='.$ran.'<br/>
+		$mail->Body = utf8_decode('<p>Bonjour</p>
+		  <p>Pour finialiser votre demande cliquez sur le lien ci-dessous :<p><br/>
+          localhost/ffsfp/reset.php?rmail='.$email.'&uid='.$ran.'<br/>
           <p>Si le clic du lien ne fonctionne pas, merci de le copier/coller dans la barre d\'adresse de votre navigateur.</p><br/>
-          Bien cordialement<br/>
-          L\'équipe de FFSFP';			                //An HTML or plain text message body
+          cordialement<br/>
+          La FFSFP');			                //An HTML or plain text message body
 		if($mail->Send())								//Send an Email. Return true on success or false on error
 		{
 			$error = "<script>
                 swal({
-                title: \"Oops!\",
-                text: \"Vérifiez votre boîte de réception. FFSFP envoie immédiatement un message à l\'adresse email associée à votre compte. \",
+                title: \"Merci !\",
+                text: \"Veuillez vérifier votre boîte mail afin de valider votre demande. \",
                 icon: \"success\"
                 }).then(function() {
                 window.location = \"index.php\";
@@ -105,17 +104,19 @@ if(isset($_POST["submit"]))
 
         $error="<script>
                 swal({
-                title: \"Oops!\",
-                text: \"l'adresse mail n'existe pas \",
+                text: \"Votre adresse mail n'est pas reconnue \",
                 icon: \"error\"
                 }).then(function() {
-                window.location = \"mot_de_passe_oublié.php\";
+                window.location = \"motDePasseOublie.php\";
                  });
 
                  </script>";
                
 		
             }
+
+
+            $mysqli->close();
 
         }
 

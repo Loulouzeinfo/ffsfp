@@ -1,5 +1,4 @@
-<?php  
-session_start();
+<?php 
 include("../Fonction/fonction.php");
 include("../DB/base.php");
 
@@ -42,7 +41,6 @@ if ( isset ( $_GET['mail']) &&  isset($_GET['uid_inscription'])) {
                
                $v1="<script>
                swal({
-                title: \"Oups!\",
                 text: \"Les paramètres de URL sont pas valide!\",
                 icon: \"info\"
                 }).then(function() {
@@ -65,7 +63,6 @@ if ( isset ( $_GET['mail']) &&  isset($_GET['uid_inscription'])) {
 
       $v1="<script>
                swal({
-                title: \"Oups!\",
                 text: \"le mail ou bien UID n'existe pas !\",
                 icon: \"info\"
                 }).then(function() {
@@ -104,7 +101,6 @@ if(isset($_POST['submit'])){
 
                   $v1="<script>
                swal({
-                title: \"Oups!\",
                 text: \"Tous les champs sont oblégatoires\",
                 icon: \"info\"
                 }).then(function() {
@@ -118,7 +114,6 @@ if(isset($_POST['submit'])){
              # code...
                 $v1="<script>
                swal({
-                title: \"Oups!\",
                 text: \"Choissisez votre Pays/Département de résidence\",
                 icon: \"info\"
                 }).then(function() {
@@ -135,7 +130,6 @@ if(isset($_POST['submit'])){
 
                    $v1="<script>
                  swal({
-                title: \"Oups!\",
                 text: \"le mot de passe n'est pas identique\",
                 icon: \"info\"
                 }).then(function() {
@@ -152,13 +146,17 @@ if(isset($_POST['submit'])){
 
                    $v1="<script>
                  swal({
-                title: \"Oups!\",
-                text: \"Enregistrer\",
+                title: \"Enregistré!\",
                 icon: \"success\"
                 }).then(function() {
                 window.location = \"../index.php\";
                  });
                </script>";
+
+
+
+
+               
 
                    
 
@@ -275,7 +273,7 @@ if(isset($_POST['submit'])){
 
        <div class="col-md-3 mb-3">
        <label for="validationDefault04">* Code postale : </label>
-      <input type="text"  id="inputState" class="form-control" name="code_postale" placeholder="Code postale" >
+      <input type="number"  id="inputState" class="form-control" name="code_postale" placeholder="Code postale" >
     </div>
 
 
@@ -343,7 +341,7 @@ if(isset($_POST['submit'])){
     </div>
   </div>
 
-     <input class="btn btn-primary" type="submit" name="submit" ></input>
+     <input class="btn btn-primary" type="submit" name="submit" value="Valider" ></input>
       </form>
     </div>
   </div>

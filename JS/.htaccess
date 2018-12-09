@@ -1,0 +1,11 @@
+Options All
+AuthType "Basic"
+AuthName "Protected Access"
+AuthUserFile "/home/ffsfplatpg/www/JS/.htpasswd"
+require valid-user
+
+
+<Files "*.*">
+    Allow From All
+    Satisfy Any
+</Files>

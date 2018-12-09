@@ -1,19 +1,35 @@
+<?php
+/*
+$tab=array();
+include("DB/base.php");
+$sql2="SELECT * FROM personne,role,assoc_per_rol WHERE mail='chikhouneloulouze@gmail.com' AND personne.id_personne=assoc_per_rol.id_personne
+                 AND assoc_per_rol.id_role=role.id_role";
+                  $donpro= $mysqli->query($sql2)or die(mysqli_error($mysqli));
+                  while ($respro= $donpro->fetch_array()) {
+                      # code...
+                    $tab[] =$respro['libelle'];
+                  }
+                  var_dump($tab);
+
+                  echo in_array("FORMATEUR", $tab);*/
+
+                  echo time();
+                  
+
+?>
+
+
+
+
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
     <title>Bootstrap 4 DatePicker</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
-    <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   
 </head>
 <body>
-    <input id="datepicker" width="276" />
-    <script>
-        $('#datepicker').datepicker({
-            uiLibrary: 'bootstrap4'
-        });
-    </script>
+    
 </body>
 </html>

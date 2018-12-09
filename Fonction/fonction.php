@@ -43,5 +43,33 @@ function insertDB($sql){
     $mysqli->query($sql)or die(mysqli_error($mysqli));
     $mysqli->close();
    
-} 
+}
+
+
+function importeCv($file){
+$row = 1;
+$tab=array();
+    if (($handle = fopen($file, "r")) !== FALSE) {
+          $data = fgetcsv($handle, 1000, "\n");    
+          while (($data = fgetcsv($handle, 1000, "\n")) !== FALSE) {
+            $tab[]= $data;
+                # code...
+
+            }
+            
+
+        }
+
+        fclose($handle);
+
+        return $tab;
+}
+
+
+ 
+
+
+
+
+
 ?>

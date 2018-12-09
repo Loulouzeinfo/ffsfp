@@ -18,7 +18,7 @@ if(isset($_POST['submit'])){
                $v1="<script>
                swal({
                 title: \"Oops!\",
-                text: \"votre adresse mail n'est valide!\",
+                text: \"votre adresse mail n'est pas valide!\",
                  icon: \"error\"
                 }).then(function() {
                 window.location = \"../index.php\";
@@ -33,6 +33,7 @@ if(isset($_POST['submit'])){
 
                   include("../DB/base.php");
                   $password= $mysqli->real_escape_string ($password);
+                  
                   $password= hash('sha256', $password);
 
                   $sql="SELECT assoc_per_rol.id_role FROM personne,role,assoc_per_rol WHERE personne.id_personne=assoc_per_rol.id_personne AND role.id_role=assoc_per_rol.id_role AND
@@ -44,6 +45,7 @@ if(isset($_POST['submit'])){
 
                   if(in_array(1,$tab)){
                   	$_SESSION['login']=$mail;
+                    $_SESSION['action'] = time();
 		                header("Location:../Administrateur/accueil.php");
                     $mysqli->close();
 		                 exit;
@@ -51,8 +53,8 @@ if(isset($_POST['submit'])){
                   }else {
                   	$v2="<script>
                  swal({
-                title: \"Oops!\",
-                text: \"Mot de passe incorrect!\",
+                title: \"Erreur !\",
+                text: \"L'identifiant et/ou le mot de passe sont incorrects\",
                 icon: \"error\"
                 }).then(function() {
                 window.location = \"../index.php\";

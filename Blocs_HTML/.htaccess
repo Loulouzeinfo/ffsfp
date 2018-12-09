@@ -1,0 +1,11 @@
+Options All
+AuthType "Basic"
+AuthName "Protected Access"
+AuthUserFile "/home/ffsfplatpg/www/Blocs_HTML/.htpasswd"
+require valid-user
+
+
+<Files "*.php">
+    Allow From All
+    Satisfy Any
+</Files>

@@ -1,33 +1,96 @@
 /**
  * Created by Loulouze on 04/10/14.
  */
-$(document).ready(function(){
 
-$("#inputZip").keyup(function(){
+$(document).ready(function() {
+
+    $("#text").keyup(function(){
    var se = $(this).val();
     se= $.trim(se);
-    var data= "motcle="+se;  
-    
-if(se !="" && se.length>2)
-{
-
-    console.log(data);
-    $.ajax({
-        type: "GET",
-        url: "/ffsfp/search.php",
-        data: data,
-        success: function(server_response){
-          
+   
+   var longueur = se.length;
+   console.log("data="+se+" "+longueur);
+   $(".red").hide();
+if(se !=''){
         
-           $("#p").html(server_response).show();
-           
+  $.ajax({
+   type: 'GET',
+   url:"../search.php",
+   data:{data:se},
+   dataType:"json",
+   success:function(data)
+   {
+    
+     $("#ul").html(data.notification);
+      $(".red").html(data.mess).show();
+     
+   
+   }
+  });
 
-        }
-});
+
+
 }else{
 
-     $("#p").hide();        
-    }
+  $.ajax({
+   type: 'GET',
+   url:"../search.php",
+   data:{},
+   dataType:"json",
+   success:function(data)
+   {
+    
+     $("#ul").html(data.notification);
+   
+   }
+  });
+
+
+
+}
+  
+
+    
 
 });
-});
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+   
+function ajax()
+ {
+
+  $.ajax({
+  type: 'GET',
+   url:"../notification.php",
+   dataType:"json",
+   ifModified:true,
+   success:function(data)
+   {
+
+     $('.not').html(data.notification);
+    if(data.unseen_notification > 0)
+    {
+         $('.count').html(data.unseen_notification).show();
+    }else{
+           $('.count').html(data.unseen_notification).hide();
+    }
+   
+   }
+  });
+
+  setTimeout(ajax, 10000);
+ };
+
+ajax();
+

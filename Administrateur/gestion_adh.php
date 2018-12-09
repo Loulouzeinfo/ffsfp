@@ -9,6 +9,27 @@ if(!isset($_SESSION['login'])){
 header("Location:../index.php");
 
 }else{
+
+  if(isset($_SESSION['action']) AND (time()-$_SESSION['action'])<300 ){
+
+    $_SESSION['action'] = time();
+
+
+  }else{
+
+         $v1="<script>
+               swal({
+                
+                text: \"Vous êtes déconnecté !\",
+                icon: \"info\"
+                }).then(function() {
+                window.location = \"../index.php\";
+                 });
+               
+               </script>";
+
+  }
+  
   $sess=$_SESSION['login'];
   $sql2="SELECT * FROM personne WHERE mail='$sess'";
   $donpro= $mysqli->query($sql2)or die(mysqli_error($mysqli));
@@ -40,7 +61,6 @@ if(isset($_GET['supp'])){
 
              $v1="<script>
                swal({
-                title: \"Oups!\",
                 text: \"supprimé!\",
                 icon: \"success\"
                 }).then(function() {
@@ -56,7 +76,6 @@ if(isset($_GET['supp'])){
            
                $v1="<script>
                swal({
-                title: \"Oups!\",
                 text: \"le Paramètre est valide!\",
                 icon: \"error\"
                 }).then(function() {
@@ -71,11 +90,6 @@ if(isset($_GET['supp'])){
 }
              /* */
 
-
-
-
-
-
 }
 
   ?>
@@ -84,17 +98,30 @@ if(isset($_GET['supp'])){
 <head>
   <meta charset="utf-8">
   <?php  include("../Blocs_HTML/script_bootstrap_header.php");  ?>
-
+  
   <title>gestion d'adhérents</title>
   <link rel="stylesheet" href="../CSS/Style.css">
+   
 
 </head>
 <body>
  
  <?php    include("../Blocs_HTML/nav.php"); ?>
 
+
+<div class="container auto">
+<form method="GET">   
+    <i class="fas fa-search"></i><input type="text" name="text"  id="text" />
+</form>
+</div>
+
+<div class="container red" style="color: red; text-align: center;  margin-top: 20px;" >
+</div>
+
+
+
 <div class="tab">
-<table class="table table-striped" style="overflow-y:scroll">
+<table class="table table-striped" id="p" style="overflow-y:scroll" >
   <thead class="thead-dark">
     <tr>
       <th scope="col">Numéro d'adérents</th>
@@ -105,49 +132,49 @@ if(isset($_GET['supp'])){
       <th scope="col">Code postale</th>
       <th scope="col">Ville</th>
       <th scope="col">Département</th>
-      <th scope="col">Modifier</th>
+      <th scope="col">Action</th>
 
     </tr>
   </thead>
-  <tbody>
+  <tbody id="ul">
 
     <?php
      foreach ($tab as $key) {
        echo "<tr>
-      <th scope=\"row\">".$key['id_personne']."</th>
-      <td>".$key['nom']."</td>
-      <td>".$key['prenom']."</td>
-      <td>".$key['mail']."</td>
-      <td>".$key['addresse']."</td>
-      <td>".$key['code_postale']."</td>
-      <td>".$key['ville']."</td>
+      <th scope=\"row\">".utf8_encode($key['id_personne'])."</th>
+      <td>".utf8_encode($key['nom'])."</td>
+      <td>".utf8_encode($key['prenom'])."</td>
+      <td>".utf8_encode($key['mail'])."</td>
+      <td>".utf8_encode($key['addresse'])."</td>
+      <td>".utf8_encode($key['code_postale'])."</td>
+      <td>".utf8_encode($key['ville'])."</td>
       <td>".utf8_encode($key['Departement'])."</td>
       <td>
-      <a href=\"gestion_adh.php?supp=".$key['mail']."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
-      <a href=\" \"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
-      <a  href=\" \" data-toggle=\"modal\" data-target=\"#".$key['nom']."\"><i class=\"fas fa-search-plus\"></i></a>
+      <a href=\"gestion_adh.php?supp=".utf8_encode($key['mail'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
+      <a href=\"edite.php?edit=".utf8_encode($key['mail'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
+      <a  href=\" \" data-toggle=\"modal\" data-target=\"#".utf8_encode($key['nom'])."\"><i class=\"fas fa-search-plus\"></i></a>
 
 
-  <div class=\"modal fade\" id=".$key['nom']." tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+  <div class=\"modal fade\" id=".utf8_encode($key['nom'])." tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
   <div class=\"modal-dialog\" role=\"document\">
     <div class=\"modal-content\">
       <div class=\"modal-header\">
-        <h5 class=\"modal-title\" id=\"exampleModalLabel\">".$key['nom']." ".$key['prenom']."</h5>
+        <h5 class=\"modal-title\" id=\"exampleModalLabel\">".utf8_encode($key['nom'])." ".utf8_encode($key['prenom'])."</h5>
         <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
           <span aria-hidden=\"true\">&times;</span>
         </button>
       </div>
       <div class=\"modal-body\">
       <label> Date de naissance : </label>
-       <input type=\"text\" class=\"form-control\" placeholder=".$key['date_de_naissance']." readonly>
+       <input type=\"text\" class=\"form-control\" placeholder=".utf8_encode($key['date_de_naissance'])." readonly>
      <label> Lieu de naissance : </label>
-       <input type=\"text\" class=\"form-control\" placeholder=".$key['lieu_de_naissance']." readonly>
+       <input type=\"text\" class=\"form-control\" placeholder=".utf8_encode($key['lieu_de_naissance'])." readonly>
        <label> Pays de naissance : </label>
-       <input type=\"text\" class=\"form-control\" placeholder=".$key['pays_naissance']." readonly>
+       <input type=\"text\" class=\"form-control\" placeholder=".utf8_encode($key['pays_naissance'])." readonly>
         <label> Departement de naissance : </label>
-       <input type=\"text\" class=\"form-control\" placeholder=".$key['departement_naissance']." readonly>
+       <input type=\"text\" class=\"form-control\" placeholder=".utf8_encode($key['departement_naissance'])." readonly>
        <label> Profession : </label>
-       <input type=\"text\" class=\"form-control\" placeholder=".$key['profession']." readonly>
+       <input type=\"text\" class=\"form-control\" placeholder=".utf8_encode($key['profession'])." readonly>
 
 
 

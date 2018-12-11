@@ -2,7 +2,11 @@
  session_start();
  include("../DB/base.php");
  include("../Fonction/fonction.php");
-$tab=array();
+$res=array(
+    "libelle_cotisation" => "",
+    "montant" => "",
+    "date_validite" => ""
+  );
 $profile='';
 
 $v1='';
@@ -50,20 +54,32 @@ header("Location:../index.php");
     $valide=$mysqli->real_escape_string(trim(verif($_POST['valide'])));
 
     if(!empty($cotisation) && !empty($montant) && !empty($valide)){
+       
 
+         $sql22="SELECT * FROM cotisation WHERE libelle_cotisation='$cotisation'";
+         $donpro= $mysqli->query($sql22)or die(mysqli_error($mysqli));
+         $rows=$donpro->num_rows;
 
+         if($rows==1){
+
+          $sqlup= "UPDATE cotisation SET libelle_cotisation='$cotisation', montant='$montant',date_validite='$valide' WHERE libelle_cotisation='$cotisation' ";
+                  insertDB($sqlup);
+                  $v1="<script> dialogsuccess(\"Mise à jour réussit\", \"historique.php\"); </script>";
+                   
+         }else{
+
+      
       $sql="INSERT INTO cotisation (libelle_cotisation,montant,date_validite) VALUES ('$cotisation','$montant','$valide')";
       insertDB($sql);
+      $v1="<script> dialogsuccess(\"Enregistré\", \"historique.php\"); </script>";
+     
 
-       $v1="<script>
-               swal({
-                
-                text: \"Enregistré !\",
-                icon: \"info\"
-                });
-               
-               </script>";
-  
+
+
+         }
+
+
+
 
     }else{
        $v1="<script>
@@ -82,6 +98,26 @@ header("Location:../index.php");
 
   }
 
+          if(isset($_GET['editC'])){
+
+                    if(!empty($_GET['editC'])){
+
+                         $editC= $mysqli->real_escape_string(trim(verif($_GET['editC'])));
+
+                         $historique="SELECT * FROM cotisation WHERE id_cotisation='$editC'";
+                         $donnhist=$mysqli->query($historique)or die(mysqli_error($mysqli));
+                         $res= $donnhist->fetch_array();
+                            
+                       }else{
+                                $v1="<script> dialoginfo(\"Libellé de la cotisation n'existe pas !\", \"cotisation.php\"); </script>";
+
+
+
+                       }
+
+
+
+                     }
     
   
   }
@@ -119,14 +155,14 @@ header("Location:../index.php");
   <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Libellé : </label>
-      <input type="text" class="form-control" id="libellecotisation" placeholder="Cotisation" name="cotisation" >
+      <input type="text" class="form-control" id="libellecotisation" placeholder="Cotisation" name="cotisation" value="<?php  echo utf8_encode($res['libelle_cotisation']);  ?>" >
     </div>
   </div>
 
     <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Montant : </label>
-      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EURO" name="montant" >
+      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EURO" name="montant"  value="<?php  echo utf8_encode($res['montant']);  ?>">
 
     </div>
   </div>
@@ -134,7 +170,7 @@ header("Location:../index.php");
    <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Validité : </label>
-      <input  class="form-control" id="datepicker"  name="valide" placeholder="Date de Validité" >
+      <input  class="form-control" id="datepicker"  name="valide" placeholder="Date de Validité" value="<?php  echo utf8_encode($res['date_validite']);  ?>" >
     </div>
 
         <script type="text/javascript">

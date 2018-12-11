@@ -47,7 +47,7 @@ header("Location:../index.php");
 
 
 
-  $historique="SELECT * FROM cotisation";
+  $historique="SELECT * FROM cotisation ORDER BY libelle_cotisation DESC";
   $donnhist=$mysqli->query($historique)or die(mysqli_error($mysqli));
   while($resH= $donnhist->fetch_array()){
      $tabH[]=$resH;
@@ -69,6 +69,27 @@ header("Location:../index.php");
         $supC= $mysqli->real_escape_string(trim(verif($_GET['suppC'])));
 
         $reqsuppC="DELETE FROM cotisation WHERE  id_cotisation= '$supC'";
+        $donn=$mysqli->query($reqsuppC)or die(mysqli_error($mysqli));
+        $v1="<script> dialogsuccess(\"Supprimé\",\"historique.php\"); </script>";
+        
+             }else{
+
+               $v1="<script> dialoginfo(\"Suppression impossible\", \"historique.php\"); </script>";
+               
+
+             }
+                 
+
+  }
+
+
+   if(isset($_GET['suppD'])){
+
+      if(!empty($_GET['suppD'])){
+
+        $suppD= $mysqli->real_escape_string(trim(verif($_GET['suppD'])));
+
+        $reqsuppC="DELETE FROM diplome WHERE  id_diplome= '$suppD'";
         $donn=$mysqli->query($reqsuppC)or die(mysqli_error($mysqli));
         $v1="<script> dialogsuccess(\"Supprimé\",\"historique.php\"); </script>";
         
@@ -129,7 +150,7 @@ header("Location:../index.php");
       <td>".utf8_encode($key['date_validite'])."</td>
       <td>
       <a href=\"historique.php?suppC=".utf8_encode($key['id_cotisation'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
-      <a href=\"editeCotisation.php?edit=".utf8_encode($key['id_cotisation'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
+      <a href=\"cotisation.php?editC=".utf8_encode($key['id_cotisation'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
 
       </td>
     </tr>";
@@ -168,7 +189,7 @@ header("Location:../index.php");
       <td>".utf8_encode($key['montant_diplome'])." € </td>
       <td>
       <a href=\"historique.php?suppD=".utf8_encode($key['id_diplome'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
-      <a href=\"editeDiplome.php?edit=".utf8_encode($key['id_diplome'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
+      <a href=\"ParamDiplome.php?editD=".utf8_encode($key['id_diplome'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
 
       </td>
     </tr>";

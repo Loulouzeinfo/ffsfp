@@ -2,7 +2,10 @@
  session_start();
  include("../DB/base.php");
  include("../Fonction/fonction.php");
-$tab=array();
+$res=array(
+    "libelle_diplome" => "",
+    "montant_diplome" => ""
+  );
 $profile='';
 
 $v1='';
@@ -48,12 +51,26 @@ header("Location:../index.php");
                  $cotisation= $mysqli->real_escape_string(trim(verif($_POST['cotisation'])));
                  $montant= $mysqli->real_escape_string(trim(verif($_POST['montant'])));
 
+
+                  $sql22="SELECT * FROM diplome WHERE libelle_diplome='$cotisation'";
+                  $donpro= $mysqli->query($sql22)or die(mysqli_error($mysqli));
+                  $rows=$donpro->num_rows;
+
+         if($rows==1){
+
+          $sqlup= "UPDATE diplome SET libelle_diplome='$cotisation', montant_diplome='$montant' WHERE libelle_diplome='$cotisation' ";
+                  insertDB($sqlup);
+                  $v1="<script> dialogsuccess(\"Mise à jour réussit\", \"historique.php\"); </script>";
+                   
+         }else{
+
+
                 $sqlD="INSERT INTO diplome(libelle_diplome,montant_diplome) VALUES ('$cotisation','$montant' )";
                 insertDB($sqlD);
 
                 $v1="<script> dialogsuccess(\"Enregistré\",\"ParamDiplome.php\"); </script>";
 
-
+             }
  
 
 
@@ -64,6 +81,28 @@ header("Location:../index.php");
             $v1="<script> dialoginfo(\"Tous les champs sont Obligatoirs !\",\"ParamDiplome.php\"); </script>";
        }
   }
+
+
+  if(isset($_GET['editD'])){
+
+                    if(!empty($_GET['editD'])){
+
+                         $editD= $mysqli->real_escape_string(trim(verif($_GET['editD'])));
+
+                         $historique="SELECT * FROM diplome WHERE id_diplome='$editD'";
+                         $donnhist=$mysqli->query($historique)or die(mysqli_error($mysqli));
+                         $res= $donnhist->fetch_array();
+                            
+                       }else{
+                                $v1="<script> dialoginfo(\"Libellé de Diplôme n'existe pas !\", \"ParamDiplome.php\"); </script>";
+
+
+
+                       }
+
+
+
+                     }
 
     
   
@@ -100,18 +139,17 @@ header("Location:../index.php");
   <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Libellé : </label>
-      <input type="text" class="form-control" id="libellecotisation" placeholder="Cotisation" name="cotisation" >
+      <input type="text" class="form-control" id="libellecotisation" placeholder="Cotisation" name="cotisation"  value="<?php  echo utf8_encode($res['libelle_diplome']);  ?>" >
     </div>
   </div>
 
     <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Montant : </label>
-      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EURO" name="montant" >
+      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EURO" name="montant"  value="<?php  echo utf8_encode($res['montant_diplome']); ?>">
 
     </div>
   </div>
-
 
     <div class="form-row">
    <div class="col-md-4 mb-3">

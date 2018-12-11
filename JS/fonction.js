@@ -93,6 +93,21 @@ function dialoginfo(mot,chemin){
 
 }
 
+function dialogerror(mot,chemin){
+
+
+ var e= swal({
+               text: mot,
+               icon: "error"
+
+             }).then(function() {
+                window.location = chemin;
+              });
+ return e;
+
+
+}
+
 
    
 function ajax()

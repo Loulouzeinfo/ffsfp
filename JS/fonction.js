@@ -62,6 +62,59 @@ if(se !=''){
 
 
 
+$(document).ready(function() {
+
+ $("#cli").on('click', function(){
+        var p=$('#sel').html();
+          $('.ajFormation').append(p);
+    });
+
+ $("#cliP").on('click', function(){
+        var p=$('#sel2').html();
+        $('.ajPrero').append(p);
+    });
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+
+ $("#file").on('change', function(e){
+        var filename = e.target.files[0].name;
+        $("#label-span").text(filename);
+       
+   
+});
+
+});
+
+
+$(document).ready(function() {
+
+ $("#file1").on('change', function(e){
+        var filename = e.target.files[0].name;
+        $("#label-span1").text(filename);
+       
+   
+});
+
+});
+
+
+
+
+
+
 
 function dialogsuccess(mot,chemin){
 

@@ -133,7 +133,7 @@ header("Location:../index.php");
       <table class="table table-striped " >
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Libellé de cotisation</th>
+      <th scope="col">Libellé</th>
       <th scope="col">Montant</th>
       <th scope="col">date de validité</th>
       <th scope="col">Action</th>
@@ -168,13 +168,13 @@ header("Location:../index.php");
     </div>
 
     <div class="HistoriqueForm">
-      <h3>Historique de coût de formations</h3>
+      <h3>Historique du coût de diplôme</h3>
 
       <div class="table-wrapper-scroll-y">
       <table class="table table-striped " >
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Libellé de Diplôme</th>
+      <th scope="col">Libellé</th>
       <th scope="col">Montant</th>
       <th scope="col">Action</th>
 

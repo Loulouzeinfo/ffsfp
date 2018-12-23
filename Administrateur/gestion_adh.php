@@ -55,9 +55,13 @@ if(isset($_GET['supp'])){
      $resre=$donnre->fetch_array();
      $idp=$resre['id_personne'];
 
-     $sqldel="DELETE FROM assoc_per_rol WHERE  id_personne= '$idp'; ";
-     $sqldel.="DELETE FROM personne WHERE mail='$supp' ; ";
-     $mysqli->multi_query($sqldel)or die(mysqli_error($mysqli));
+     $sqldel="DELETE FROM assoc_per_rol WHERE  id_personne= '$idp' ";
+     insertDB($sqldel);
+     $sqldel1="DELETE FROM personne WHERE mail='$supp' ";
+     insertDB($sqldel1);
+     $sqlCotisniv="DELETE FROM cotisationniveau WHERE  id_personne= '$idp' ";
+     insertDB($sqlCotisniv);
+
 
              $v1="<script>
                swal({
@@ -125,15 +129,15 @@ if(isset($_GET['supp'])){
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Numéro d'adérents</th>
+      <th scope="col">Numéro d'adérent</th>
       <th scope="col">Nom</th>
       <th scope="col">Prénom</th>
       <th scope="col">Adresse Mail</th>
       <th scope="col">Adresse</th>
-      <th scope="col">Code postale</th>
+      <th scope="col">Code postal</th>
       <th scope="col">Ville</th>
       <th scope="col">Département</th>
-      <th scope="col">Action</th>
+      <th scope="col">Actions</th>
 
     </tr>
   </thead>
@@ -149,8 +153,9 @@ if(isset($_GET['supp'])){
       <td>".utf8_encode($key['addresse'])."</td>
       <td>".utf8_encode($key['code_postale'])."</td>
       <td>".utf8_encode($key['ville'])."</td>
-      <td>".utf8_encode($key['Departement'])."</td>
+      <td>".utf8_encode($key['Departement'])."</td>     
       <td>
+      <a href=\"?dip=".utf8_encode($key['mail'])."\"><i class=\"fas fa-graduation-cap\"></i></a>&nbsp;
       <a href=\"gestion_adh.php?supp=".utf8_encode($key['mail'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
       <a href=\"edite.php?edit=".utf8_encode($key['mail'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
       <a  href=\" \" data-toggle=\"modal\" data-target=\"#".utf8_encode($key['nom'])."\"><i class=\"fas fa-search-plus\"></i></a>
@@ -181,7 +186,7 @@ if(isset($_GET['supp'])){
 
       </div>
       <div class=\"modal-footer\">
-        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
+        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Fermer</button>
       </div>
     </div>
   </div>

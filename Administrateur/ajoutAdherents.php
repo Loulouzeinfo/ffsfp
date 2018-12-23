@@ -71,7 +71,7 @@ header("Location:../index.php");
  if(isset($_POST['submit'])){
 
        if(isset($_POST['id_ad']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) &&
-       isset($_POST['date']) && isset($_POST['lieu']) && isset($_POST['selec']) && isset($_POST['choix']) ){
+       isset($_POST['date']) && isset($_POST['lieu']) && isset($_POST['selec']) && isset($_POST['choix']) && isset($_POST['Tarification']) ){
             
 
         $id_roleP= $mysqli->real_escape_string(trim(verif($_POST['id_ad'])));
@@ -82,6 +82,7 @@ header("Location:../index.php");
         $lieuP= $mysqli->real_escape_string(trim(verif($_POST['lieu'])));
         $selectP= $mysqli->real_escape_string(trim(verif($_POST['selec'])));
         $choixP= $_POST['choix']; 
+        $Tarification=$_POST['Tarification'];
 
         
 
@@ -121,34 +122,19 @@ header("Location:../index.php");
        # code...
              $sqlch="INSERT INTO assoc_per_rol(id_personne,id_role) VALUES ('$id_roleP',".$choixP[$i]." )";
                insertDB($sqlch);
-                } 
+                }
+               $sqlCots="INSERT INTO cotisationniveau(id_personne,niveauCotisation,payeBool) VALUES ('$id_roleP','$Tarification',0)";
+               insertDB($sqlCots);
+
 
                     $sqlins="INSERT INTO personne (id_personne,nom,prenom,date_de_naissance,lieu_de_naissance,pays_naissance,departement_naissance,mail,uid_inscription) VALUES ('$id_roleP','$nomP','$prenomP','$dateP','$lieuP','$selectP','Etranger','$mailP', '$ran')";
                     insertDB($sqlins);
 
-    require '../class/class.phpmailer.php';
-    $mail = new PHPMailer;
-    $mail -> charSet = "UTF-8";
-    $mail->IsSMTP();                //Sets Mailer to send message using SMTP
-    $mail->Host = 'smtp.gmail.com';   //Sets the SMTP hosts of your Email hosting, this for Godaddy
-    $mail->Port = 587;                //Sets the default SMTP server port
-    $mail->SMTPAuth = true;             //Sets SMTP authentication. Utilizes the Username and Password variables
-    $mail->Username = 'chikhouneloulouze@gmail.com';          //Sets SMTP username
-    $mail->Password = 'Chikhounemouloud06';         //Sets SMTP password
-    $mail->SMTPSecure = 'tls';              //Sets connection prefix. Options are "", "ssl" or "tls"
-    $mail->From = $mailP;      //Sets the From email address for the essage
-    $mail->FromName = 'FFSFP';
-    $mail->AddAddress($mailP, 'name');   //Adds a "To" address
-      //Adds a "Cc" address
-    $mail->WordWrap = 50;             //Sets word wrapping on the body of the message to a given number of characters
-    $mail->IsHTML(true);
-       //Adds a "To" address
-      //Adds a "Cc" address
-                 //Sets message type to HTML       
+     require_once("enteteMail.php");
     $mail->Subject = utf8_decode('Création d\'un compte FFSFP');       //Sets the Subject of the message
     $mail->Body = utf8_decode('<p>Bonjour</p>
                 <p>veuillez compléter le formulaire d\'inscription en cliquant sur ce lien.</p> 
-                <p>localhost/ffsfp/Administrateur/inscription.php?mail='.$mailP.'&uid_inscription='.$ran.'</p>');      
+                <p>https://localhost/ffsfp/Administrateur/inscription.php?mail='.$mailP.'&uid_inscription='.$ran.'</p>');      
 
     if($mail->Send())               
     {
@@ -178,7 +164,8 @@ header("Location:../index.php");
 
 
               } else{
-
+                 $sqlCots="INSERT INTO cotisationniveau(id_personne,niveauCotisation,payeBool) VALUES ('$id_roleP','$Tarification',0)";
+               insertDB($sqlCots);
                 $depnaissance=$_POST['select2'];
 
              $sqlins="INSERT INTO personne (id_personne,nom,prenom,date_de_naissance,lieu_de_naissance,pays_naissance,departement_naissance,mail,uid_inscription) VALUES ('$id_roleP','$nomP','$prenomP','$dateP','$lieuP','$selectP','$depnaissance','$mailP', '$ran')";
@@ -190,25 +177,7 @@ header("Location:../index.php");
                 } 
 
 
-            require '../class/class.phpmailer.php';
-      $mail = new PHPMailer;
-    $mail -> charSet = "UTF-8";
-    $mail->IsSMTP();                //Sets Mailer to send message using SMTP
-    $mail->Host = 'smtp.gmail.com';   //Sets the SMTP hosts of your Email hosting, this for Godaddy
-    $mail->Port = 587;                //Sets the default SMTP server port
-    $mail->SMTPAuth = true;             //Sets SMTP authentication. Utilizes the Username and Password variables
-    $mail->Username = 'chikhouneloulouze@gmail.com';          //Sets SMTP username
-    $mail->Password = 'Chikhounemouloud06';         //Sets SMTP password
-    $mail->SMTPSecure = 'tls';              //Sets connection prefix. Options are "", "ssl" or "tls"
-    $mail->From = $mailP;      //Sets the From email address for the essage
-    $mail->FromName = 'FFSFP';
-    $mail->AddAddress($mailP, 'name');   //Adds a "To" address
-      //Adds a "Cc" address
-    $mail->WordWrap = 50;             //Sets word wrapping on the body of the message to a given number of characters
-    $mail->IsHTML(true);
-       //Adds a "To" address
-      //Adds a "Cc" address
-                 //Sets message type to HTML       
+            require_once("enteteMail.php"); 
     $mail->Subject = utf8_decode('Création d\'un compte FFSFP');       //Sets the Subject of the message
     $mail->Body = utf8_decode('<p>Bonjour</p>
                 <p>veuillez compléter le formulaire d\'inscription en cliquant sur ce lien.</p> 
@@ -398,6 +367,17 @@ header("Location:../index.php");
 
 
         ?>
+      </select>
+      
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <label for="validationDefault04">* Tarification : </label>
+      <select id="inputStated" class="form-control" name="Tarification" >
+        <option  value="Tatif1" selected>Tarif 1</option>
+        <option  value="Tatif2" >Tarif 2</option>
+        <option  value="gratuit" >gratuit</option>
+     
       </select>
       
     </div>

@@ -1,23 +1,15 @@
 <?php
 
-$role=array();
+include("Fonction/fonction.php");
 
-include("DB/base.php");
+// Heure actuelle
+echo date('h:i:s') . "\n";
 
-                 /* $password= hash('sha256', 'mouloud');
+// Stoppe pour 10 secondes
+sleep(10);
 
-                  $sql="SELECT assoc_per_rol.id_role, assoc_per_rol.id_personne, role.libelle FROM personne,role,assoc_per_rol WHERE personne.id_personne=assoc_per_rol.id_personne AND role.id_role=assoc_per_rol.id_role AND
-                    mail='chikhouneloulouze@gmail.com' AND password='$password'";
-                  $donn=$mysqli->query($sql)or die(mysqli_error($mysqli));
-                   while ($res= $donn->fetch_array()) {
-                    $tab[]=$res;
-                  }
-          var_dump($tab);
-                  /*foreach ($tab as $key) {
-                    # code...
-                    echo $key[];
-                  }*/
-   
+// retour !
+echo date('h:i:s') . "\n";
 
 
 
@@ -27,7 +19,7 @@ include("DB/base.php");
 <!doctype html>
 <html lang="fr">
 <head>
-     
+    
         <title>Accueil Admin</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -39,7 +31,8 @@ include("DB/base.php");
 
 </head>
 <body>
-  <form method="POST">
+  
+  <form  method="post"  enctype="multipart/form-data">
  <div class="form-group">
     <div class="form-check">
 
@@ -51,7 +44,8 @@ include("DB/base.php");
     </div>
   </div>
 </form>
-</script>
+
+
 
   
 </body>

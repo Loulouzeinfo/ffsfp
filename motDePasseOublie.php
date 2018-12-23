@@ -76,7 +76,7 @@ if(isset($_POST["submit"]))
 		$mail->Subject = utf8_decode('réinitialisation de mot de passe');				//Sets the Subject of the message
 		$mail->Body = utf8_decode('<p>Bonjour</p>
 		  <p>Pour finialiser votre demande cliquez sur le lien ci-dessous :<p><br/>
-          localhost/ffsfp/reset.php?rmail='.$email.'&uid='.$ran.'<br/>
+          https://localhost/ffsfp/reset.php?rmail='.$email.'&uid='.$ran.'<br/>
           <p>Si le clic du lien ne fonctionne pas, merci de le copier/coller dans la barre d\'adresse de votre navigateur.</p><br/>
           cordialement<br/>
           La FFSFP');			                //An HTML or plain text message body

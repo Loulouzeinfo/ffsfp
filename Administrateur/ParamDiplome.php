@@ -139,21 +139,21 @@ header("Location:../index.php");
   <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Libellé : </label>
-      <input type="text" class="form-control" id="libellecotisation" placeholder="Cotisation" name="cotisation"  value="<?php  echo utf8_encode($res['libelle_diplome']);  ?>" >
+      <input type="text" class="form-control" id="libellecotisation" placeholder="Libellé" name="cotisation"  value="<?php  echo utf8_encode($res['libelle_diplome']);  ?>" >
     </div>
   </div>
 
     <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Montant : </label>
-      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EURO" name="montant"  value="<?php  echo utf8_encode($res['montant_diplome']); ?>">
+      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EUROS" name="montant"  value="<?php  echo utf8_encode($res['montant_diplome']); ?>">
 
     </div>
   </div>
 
     <div class="form-row">
    <div class="col-md-4 mb-3">
-      <button type="submit" class="btn btn-primary" name="submit">Validé</button>
+      <button type="submit" class="btn btn-primary" name="submit">Valider</button>
 </div>
     </div>
 

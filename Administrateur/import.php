@@ -43,7 +43,7 @@ header("Location:../index.php");
        # code...
          if (isset($_FILES['file']) AND $_FILES['file']['error']==0 ) {
            # code...
-          var_dump($_FILES['file']);
+          
           $file_name=$_FILES['file']['name'];
           $tmp_name=$_FILES['file']['tmp_name'];
           $file_extension=strrchr($file_name, '.');
@@ -58,8 +58,17 @@ header("Location:../index.php");
                       $f[]= $tab[$i][0];
 
                       }
-                 for ($i=0; $i <sizeof($f) ; $i++) { 
+
+
+                 for ($i=0; $i <sizeof($f) ; $i++){ 
                      $e= explode(';',$f[$i]);
+
+                  $sql2I= "SELECT * FROM personne WHERE mail='$e[3]'";
+                  $donproI= $mysqli->query($sql2I)or die(mysqli_error($mysqli));
+                  if($donproI->num_rows != 0){
+                                  continue;
+
+                  }
                  $re="SELECT * FROM role WHERE libelle='$e[8]'" ;
                  $donnrole= $mysqli->query($re)or die(mysqli_error($mysqli));
                  $resrole=$donnrole->fetch_array();
@@ -69,45 +78,18 @@ header("Location:../index.php");
                  $sqlins="INSERT INTO personne(id_personne,nom,prenom,date_de_naissance,lieu_de_naissance,pays_naissance,departement_naissance,mail,uid_inscription) 
                    VALUES ('$e[0]','$e[1]','$e[2]','$e[4]','$e[5]','$e[6]','$e[7]','$e[3]', '$ran')";
                     insertDB($sqlins);
-                    unlink('../file/'.$file_name);
 
-
-    require '../class/class.phpmailer.php';
-    $mail = new PHPMailer;
-    $mail -> charSet = "UTF-8";
-    $mail->IsSMTP();                //Sets Mailer to send message using SMTP
-    $mail->Host = 'smtp.gmail.com';   //Sets the SMTP hosts of your Email hosting, this for Godaddy
-    $mail->Port = 587;                //Sets the default SMTP server port
-    $mail->SMTPAuth = true;             //Sets SMTP authentication. Utilizes the Username and Password variables
-    $mail->Username = 'chikhouneloulouze@gmail.com';          //Sets SMTP username
-    $mail->Password = 'Chikhounemouloud06';         //Sets SMTP password
-    $mail->SMTPSecure = 'tls';              //Sets connection prefix. Options are "", "ssl" or "tls"
-    $mail->From = $e[3];      //Sets the From email address for the essage
-    $mail->FromName = 'FFSFP';
-    $mail->AddAddress($e[3], 'name');   //Adds a "To" address
-      //Adds a "Cc" address
-    $mail->WordWrap = 50;             //Sets word wrapping on the body of the message to a given number of characters
-    $mail->IsHTML(true);
-       //Adds a "To" address
-      //Adds a "Cc" address
-                 //Sets message type to HTML       
+   require_once("enteteMail.php");
+           
     $mail->Subject = utf8_decode('Création d\'un compte FFSFP');       //Sets the Subject of the message
     $mail->Body = utf8_decode('<p>Bonjour</p>
                 <p>veuillez compléter le formulaire d\'inscription en cliquant sur ce lien.</p> 
-                <p>localhost/ffsfp/Administrateur/inscription.php?mail='.$e[3].'&uid_inscription='.$ran.'</p>');      
+                <p>https://www.ffsfplaton.ovh/Administrateur/inscription.php?mail='.$e[3].'&uid_inscription='.$ran.'</p>');      
 
     if($mail->Send())               
     {
+                   
 
-       $envoi="<script>
-               swal({
-                text: \"importé avec succés !\",
-                icon: \"success\"
-                }).then(function() {
-                window.location = \"gestion_adh.php\";
-                 });
-               
-               </script>";
     }else{
        
         $envoi="<script>
@@ -122,8 +104,22 @@ header("Location:../index.php");
     }
 
 
+             
 
                       }
+
+
+
+                    unlink($chemin);
+                        $envoi="<script>
+               swal({
+                text: \"Données importées avec succès\",
+                icon: \"success\"
+                }).then(function() {
+                window.location = \"gestion_adh.php\";
+                 });
+               
+               </script>";
 
                   
 
@@ -188,11 +184,23 @@ header("Location:../index.php");
     <h1 class="display-4">Importer un fichier .CSV</h1>
 
 
+    
+
     <form  class="form-group" method="post"  enctype="multipart/form-data">
+</br>
+</br>
 
-   <input type="file" id="file" name="file" class="input-file" ></br>
+ <div class="custom-file">
+  <input type="file" class="custom-file-input" id="file" name="file">
+  <label class="custom-file-label" for="file"><span id="label-span">Choisir un fichier</span></label>
+</div>
 
-   <input type="submit" name="submit" value="Importer">
+
+</br>
+</br>
+
+
+   <button type="submit" name="submit" class="btn btn-primary" >Importer</button>
  
 
 </form>

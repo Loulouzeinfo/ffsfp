@@ -64,7 +64,7 @@ header("Location:../index.php");
 
           $sqlup= "UPDATE cotisation SET libelle_cotisation='$cotisation', montant='$montant',date_validite='$valide' WHERE libelle_cotisation='$cotisation' ";
                   insertDB($sqlup);
-                  $v1="<script> dialogsuccess(\"Mise à jour réussit\", \"historique.php\"); </script>";
+                  $v1="<script> dialogsuccess(\"Mise à jour réussie\", \"historique.php\"); </script>";
                    
          }else{
 
@@ -162,7 +162,7 @@ header("Location:../index.php");
     <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Montant : </label>
-      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EURO" name="montant"  value="<?php  echo utf8_encode($res['montant']);  ?>">
+      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EUROS" name="montant"  value="<?php  echo utf8_encode($res['montant']);  ?>">
 
     </div>
   </div>
@@ -197,9 +197,11 @@ header("Location:../index.php");
     </script>
   </div>
 
+   
+
     <div class="form-row">
    <div class="col-md-4 mb-3">
-      <button type="submit" class="btn btn-primary" name="submit">Validé</button>
+      <button type="submit" class="btn btn-primary" name="submit">Valider</button>
 </div>
     </div>
 

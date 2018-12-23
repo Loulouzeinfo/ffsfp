@@ -1,5 +1,4 @@
 <?php
-/*$tableau=array();
 $s='';
 
   $reqsql="SELECT * FROM personne,role,assoc_per_rol WHERE mail='$sess' AND personne.id_personne=assoc_per_rol.id_personne
@@ -26,7 +25,7 @@ $s='';
     </li>";
 
                   
-                  }*/
+                  }
                  
 
 
@@ -62,19 +61,25 @@ $s='';
       </div>
     </li>
 
-     <li class="nav-item dropdown">
+
+
+     <li class="nav-item dropdown  ">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         Paramétrages
       </a>
 
-      <div class="dropdown-menu">
+      <div class="dropdown-menu scrollable_menu">
         <a class="dropdown-item" style="pointer-events: none; cursor: default;" href="">Financier </a>
          <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="cotisation.php"> Paramétrage des cotisations </a></li></ul>  
          <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="ParamDiplome.php"> Paramétrage du coût du diplôme </a></li></ul>
          <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="historique.php">Historiques</a></li></ul> 
          <div class="dropdown-divider"></div>
         <a class="dropdown-item"style="pointer-events: none; cursor: default;" href="">Formation </a> 
-         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="cotisation.php"> Paramétrage Formation </a></li></ul>    
+         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="formation.php"> Paramétrage Formation </a></li></ul>
+         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="historiqueParamFormation.php"> Historiques  </a></li></ul>   
+        <a class="dropdown-item"style="pointer-events: none; cursor: default;" href="">Modèle </a> 
+        <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="modeleDiplome.php"> Modèles diplômes </a></li></ul>
+         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="HistoriquesModeles.php"> Historiques  </a></li></ul> 
       </div>
     </li>
        <li class="nav-item dropdown">
@@ -89,16 +94,23 @@ $s='';
      
     </li>
 
-
+<?php  echo $s;  ?>
+    
     <li class="nav-item dropdown p">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         Bonjour <?php  echo $profile;  ?> 
       </a>
 
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Profil</a>  
+
+
+        <a class="dropdown-item" href="profile.php">Profil</a> 
+        <a class="dropdown-item" href="#">Diplômes</a>  
+         <a class="dropdown-item" href="#">Cotisations</a>
+         
+
         <div class="dropdown-divider"></div>     
-       <a class="dropdown-item" href="../deconnectionSession.php">Déconnxion</a>
+       <a class="dropdown-item" href="../deconnectionSession.php">Déconnexion</a>
       </div>
 
     </li>

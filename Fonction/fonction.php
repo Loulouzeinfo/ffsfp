@@ -44,10 +44,41 @@ function insertDB($sql){
     $mysqli->close();
    
 }
+ 
+function selectDB($sqlc){
+  
+  include("../DB/base.php");
+  $donnrole=$mysqli->query($sqlc)or die(mysqli_error($mysqli));
+  while ($resrole=$donnrole->fetch_array()) {
+    
+    $role[]=$resrole;
+  }
+$mysqli->close();
+  return $role;
+}
+
+function Rows($sqlc){
+  
+  include("../DB/base.php");
+  $donnrole=$mysqli->query($sqlc)or die(mysqli_error($mysqli));
+  $res= $donnrole->num_rows; 
+  if($res==0){
+   $resrows=false;
+  }else{
+   $resrows=true;
+  }
+$mysqli->close();
+  return $resrows;
+}
+
+
+
+
 
 
 function importeCv($file){
-$row = 1;
+
+
 $tab=array();
     if (($handle = fopen($file, "r")) !== FALSE) {
           $data = fgetcsv($handle, 1000, "\n");    
@@ -65,8 +96,97 @@ $tab=array();
         return $tab;
 }
 
+function console_log( $data ){
+  echo '<script>';
+  echo 'console.log('. json_encode( $data ) .')';
+  echo '</script>';
+}
 
- 
+function SaveDiplomeModel($file,$name){
+   $path="../file/Modele/ModeleDip/".$name;
+
+    
+       $file_name=$file['name'];
+       $tmp_name=$file['tmp_name'];
+      
+       $file_extension=strrchr($file_name, '.');
+       $extension_autorisées= array('.PDF','.pdf','.doc','.DOC','.docx','.DOCX');
+       $chemin=$path."/".$file_name;
+      
+       if(in_array($file_extension, $extension_autorisées)){
+            if(!file_exists("../file/Modele/ModeleDip/".$name)){
+              mkdir($path,0777);
+              
+               }
+          move_uploaded_file($tmp_name, $chemin);
+
+          $sqlD="INSERT INTO modele_diplome(modeleUrl,nameModele) VALUES ('$name','$file_name' )";
+          insertDB($sqlD);
+          console_log("requete sql");
+
+          return array("<script> dialogsuccess(\"Le modèle a bien été enregistré \",\"modeleDiplome.php\"); </script>",$chemin);
+
+       }else{
+
+        return array("<script> dialoginfo(\"Extension non autorisée \",\"modeleDiplome.php\"); </script>");
+       }
+    
+}
+
+
+function SaveCcaModel($file,$name){
+
+   $path="../file/Modele/ModeleCCA/".$name;
+       $file_name=$file['name'];
+       $tmp_name=$file['tmp_name'];
+      
+       $file_extension=strrchr($file_name, '.');
+       $extension_autorisées= array('.PDF','.pdf','.doc','.DOC','.docx','.DOCX');
+       $chemin=$path."/".$file_name;
+      
+       if(in_array($file_extension, $extension_autorisées)){
+            if(!file_exists("../file/Modele/ModeleCCA/".$name)){
+              mkdir($path,0777);
+              
+               }
+          move_uploaded_file($tmp_name, $chemin);
+
+          $sqlD="INSERT INTO modele_caa(caaUrl,nameCaa) VALUES ('$name','$file_name' )";
+          insertDB($sqlD);
+          console_log("requete sql");
+
+          return array("<script> dialogsuccess(\"Le modèle a bien été enregistré \",\"modeleDiplome.php\"); </script>",$chemin);
+
+       }else{
+
+        return array("<script> dialoginfo(\"Extension non autorisée \",\"modeleDiplome.php\"); </script>");
+       }
+    
+}
+
+function  docx($chemin, $name){
+      
+       include_once "docxtemplate.class.php";
+       $doc= new DOCXTemplate($chemin);
+       $doc->set('nom',$name);
+       $doc->downloadAs('test.docx');
+
+}
+
+
+/*  Fonction pour parcourir les sous répertoires d'un dossier     */
+ function rrmdir($dir) {
+ if (is_dir($dir)) { // si le paramètre est un dossier
+     $objects = scandir($dir); // on scan le dossier pour récupérer ses objets
+     foreach ($objects as $object) { // pour chaque objet
+          if ($object != "." && $object != "..") { // si l'objet n'est pas . ou ..
+               if (filetype($dir."/".$object) == "dir") rmdir($dir."/".$object);else unlink($dir."/".$object); // on supprime l'objet
+              }
+     }
+     reset($objects); // on remet à 0 les objets
+     rmdir($dir); // on supprime le dossier
+     }
+ }
 
 
 

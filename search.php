@@ -33,6 +33,7 @@ if(isset($_GET['data']))
       <td>".utf8_encode($ex['ville'])."</td>
       <td>".utf8_encode($ex['Departement'])."</td>
       <td>
+      <a href=\"?dip=".utf8_encode($ex['mail'])."\"><i class=\"fas fa-graduation-cap\"></i></a>&nbsp;
       <a href=\"gestion_adh.php?supp=".utf8_encode($ex['mail'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
       <a href=\"edite.php?edit=".utf8_encode($ex['mail'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
       <a  href=\" \" data-toggle=\"modal\" data-target=\"#".utf8_encode($ex['nom'])."\"><i class=\"fas fa-search-plus\"></i></a>
@@ -63,7 +64,7 @@ if(isset($_GET['data']))
 
       </div>
       <div class=\"modal-footer\">
-        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
+        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Fermer</button>
       </div>
     </div>
   </div>
@@ -128,6 +129,7 @@ if(isset($_GET['data']))
       <td>".utf8_encode($ex['ville'])."</td>
       <td>".utf8_encode($ex['Departement'])."</td>
       <td>
+      <a href=\"?dip=".utf8_encode($ex['mail'])."\"><i class=\"fas fa-graduation-cap\"></i></a>&nbsp;
       <a href=\"gestion_adh.php?supp=".utf8_encode($ex['mail'])."\"><i class=\"fas fa-trash-alt\"></i></a>&nbsp;
       <a href=\" edite.php?edit=".utf8_encode($ex['mail'])."\"><i class=\"fas fa-user-edit\"></i></a>&nbsp;
       <a  href=\" \" data-toggle=\"modal\" data-target=\"#".utf8_encode($ex['nom'])."\"><i class=\"fas fa-search-plus\"></i></a>
@@ -157,7 +159,7 @@ if(isset($_GET['data']))
 
       </div>
       <div class=\"modal-footer\">
-        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
+        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Fermer</button>
       </div>
     </div>
   </div>

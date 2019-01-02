@@ -55,13 +55,37 @@ if (!isset($_SESSION['login'])) {
         } else {
             $v1 = "<script>
                swal({
-                text: \"Le Paramètre n'est pas valide valide!\",
+                text: \"Le paramètre n'est pas valide\",
                 icon: \"error\"
                 }).then(function() {
                 window.location = \"historiqueParamFormation.php\";
                  });
 
                </script>";
+        }
+    }
+
+    if (isset($_GET['suppPs'])) {
+        if (!empty($_GET['suppPs'])) {
+            $suppPs = $mysqli->real_escape_string(trim(verif($_GET['suppPs'])));
+            $sqldel = "DELETE FROM prerequis WHERE  id_prerequis= '$suppPs' ";
+            insertDB($sqldel);
+            console_log('supprimé');
+            $v1 = '<script> dialogsuccess("Supprimé","historiqueParamFormation.php"); </script>';
+        } else {
+            $v1 = '<script> dialoginfo("Le paramètre n\'est pas valide","historiqueParamFormation.php"); </script>';
+        }
+    }
+
+    if (isset($_GET['suppPv'])) {
+        if (!empty($_GET['suppPv'])) {
+            $suppPv = $mysqli->real_escape_string(trim(verif($_GET['suppPv'])));
+            $sqldel = "DELETE FROM prerogative WHERE  id_prerogative= '$suppPv' ";
+            insertDB($sqldel);
+            console_log('supprimé');
+            $v1 = '<script> dialogsuccess("Supprimé","historiqueParamFormation.php"); </script>';
+        } else {
+            $v1 = '<script> dialoginfo("Le paramètre n\'est pas valide","historiqueParamFormation.php"); </script>';
         }
     }
 }
@@ -133,14 +157,14 @@ foreach ($tab as $key) {
     $preqi = "SELECT * FROM prerequis WHERE libelle_formation='$label'";
     $donnpreqi = $mysqli->query($preqi) or die(mysqli_error($mysqli));
     while ($respreqi = $donnpreqi->fetch_array()) {
-        $var .= '<input type="text" class="form-control"  placeholder='.$respreqi['libellePreroquis'].' readonly><a  href="historiqueParamFormation.php?supp=s'.$respreqi['id_prerequis'].'">supp</a> </br>';
+        $var .= '<input type="text" class="form-control"  placeholder='.$respreqi['libellePreroquis'].' readonly><a href="historiqueParamFormation.php?suppPs='.$respreqi['id_prerequis'].'">Supprimer</a> </br>';
     }
 
     $var .= '</br><label> Prérogatives: </label>';
     $pregative = "SELECT * FROM prerogative WHERE libelle_formation='$label'";
     $donnpregative = $mysqli->query($pregative) or die(mysqli_error($mysqli));
     while ($respregative = $donnpregative->fetch_array()) {
-        $var .= '<input type="text" class="form-control"  placeholder='.$respregative['libellePrerogative'].' readonly></br>';
+        $var .= '<input type="text" class="form-control"  placeholder='.$respregative['libellePrerogative'].' readonly><a href="historiqueParamFormation.php?suppPv='.$respregative['id_prerogative'].'">Supprimer</a></br>';
     }
 
     $var .= '</div>
@@ -167,7 +191,7 @@ foreach ($tab as $key) {
 
 
 <?php echo $v1; ?>
-<?php include '../Blocs_HTML/footer.php';?>
+<?php include '../Blocs_HTML/footer.php'; ?>
 
 
 

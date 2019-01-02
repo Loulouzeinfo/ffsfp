@@ -1,128 +1,83 @@
-<?php  
+<?php 
  session_start();
- include("../DB/base.php");
- include("../Fonction/fonction.php");
-$res=array(
-    "libelle_cotisation" => "",
-    "montant" => "",
-    "date_validite" => ""
+ include '../DB/base.php';
+ include '../Fonction/fonction.php';
+$res = array(
+    'libelle_cotisation' => '',
+    'montant' => '',
+    'date_validite' => '',
   );
-$profile='';
+$profile = '';
 
-$v1='';
+$v1 = '';
 
-if(!isset($_SESSION['login'])){ 
-header("Location:../index.php");
-
-}else{
-
-
-
-  if(isset($_SESSION['action']) AND (time()-$_SESSION['action'])<300 ){
-
-    $_SESSION['action'] = time();
-
-
-  }else{
-
-         $v1="<script>
+if (!isset($_SESSION['login'])) {
+    header('Location:../index.php');
+} else {
+    if (isset($_SESSION['action']) and (time() - $_SESSION['action']) < 300) {
+        $_SESSION['action'] = time();
+    } else {
+        $v1 = '<script>
                swal({
                 
-                text: \"Vous êtes déconnecté !\",
-                icon: \"info\"
+                text: "Vous êtes déconnecté !",
+                icon: "info"
                 }).then(function() {
-                window.location = \"../index.php\";
+                window.location = "../index.php";
                  });
                
-               </script>";
-
-  }
-
-  $sess=$_SESSION['login'];
-   $sql22="SELECT * FROM personne WHERE mail='$sess'";
-  $donpro= $mysqli->query($sql22)or die(mysqli_error($mysqli));
-  $respro= $donpro->fetch_array();
-  $profile=$respro['prenom'];
-
-
-
-
-  if(isset($_POST['submit'])){
-
-    $cotisation=$mysqli->real_escape_string(trim(verif($_POST['cotisation'])));
-    $montant=$mysqli->real_escape_string(trim(verif($_POST['montant'])));
-    $valide=$mysqli->real_escape_string(trim(verif($_POST['valide'])));
-
-    if(!empty($cotisation) && !empty($montant) && !empty($valide)){
-       
-
-         $sql22="SELECT * FROM cotisation WHERE libelle_cotisation='$cotisation'";
-         $donpro= $mysqli->query($sql22)or die(mysqli_error($mysqli));
-         $rows=$donpro->num_rows;
-
-         if($rows==1){
-
-          $sqlup= "UPDATE cotisation SET libelle_cotisation='$cotisation', montant='$montant',date_validite='$valide' WHERE libelle_cotisation='$cotisation' ";
-                  insertDB($sqlup);
-                  $v1="<script> dialogsuccess(\"Mise à jour réussie\", \"historique.php\"); </script>";
-                   
-         }else{
-
-      
-      $sql="INSERT INTO cotisation (libelle_cotisation,montant,date_validite) VALUES ('$cotisation','$montant','$valide')";
-      insertDB($sql);
-      $v1="<script> dialogsuccess(\"Enregistré\", \"historique.php\"); </script>";
-     
-
-
-
-         }
-
-
-
-
-    }else{
-       $v1="<script>
-               swal({
-                
-                text: \"tous les champs sont obligatoires !\",
-                icon: \"info\"
-                });
-               
-               </script>";
+               </script>';
     }
 
+    $sess = $_SESSION['login'];
+    $sql22 = "SELECT * FROM personne WHERE mail='$sess'";
+    $donpro = $mysqli->query($sql22) or die(mysqli_error($mysqli));
+    $respro = $donpro->fetch_array();
+    $profile = $respro['prenom'];
 
-  
+    if (isset($_POST['submit'])) {
+        $cotisation = $mysqli->real_escape_string(trim(verif($_POST['cotisation'])));
+        $montant = $mysqli->real_escape_string(trim(verif($_POST['montant'])));
+        $valide = $mysqli->real_escape_string(trim(verif($_POST['valide'])));
 
+        if (!empty($cotisation) && !empty($montant) && !empty($valide)) {
+            $sql22 = "SELECT * FROM cotisation WHERE libelle_cotisation='$cotisation'";
+            $donpro = $mysqli->query($sql22) or die(mysqli_error($mysqli));
+            $rows = $donpro->num_rows;
 
-  }
+            if ($rows == 1) {
+                $sqlup = "UPDATE cotisation SET libelle_cotisation='$cotisation', montant='$montant',date_validite='$valide' WHERE libelle_cotisation='$cotisation' ";
+                insertDB($sqlup);
+                $v1 = '<script> dialogsuccess("Mise à jour réussie", "historique.php"); </script>';
+            } else {
+                $sql = "INSERT INTO cotisation (libelle_cotisation,montant,date_validite) VALUES ('$cotisation','$montant','$valide')";
+                insertDB($sql);
+                $v1 = '<script> dialogsuccess("Enregistré", "historique.php"); </script>';
+            }
+        } else {
+            $v1 = '<script>
+               swal({
+                
+                text: "tous les champs sont obligatoires !",
+                icon: "info"
+                });
+               
+               </script>';
+        }
+    }
 
-          if(isset($_GET['editC'])){
+    if (isset($_GET['editC'])) {
+        if (!empty($_GET['editC'])) {
+            $editC = $mysqli->real_escape_string(trim(verif($_GET['editC'])));
 
-                    if(!empty($_GET['editC'])){
-
-                         $editC= $mysqli->real_escape_string(trim(verif($_GET['editC'])));
-
-                         $historique="SELECT * FROM cotisation WHERE id_cotisation='$editC'";
-                         $donnhist=$mysqli->query($historique)or die(mysqli_error($mysqli));
-                         $res= $donnhist->fetch_array();
-                            
-                       }else{
-                                $v1="<script> dialoginfo(\"Libellé de la cotisation n'existe pas !\", \"cotisation.php\"); </script>";
-
-
-
-                       }
-
-
-
-                     }
-    
-  
-  }
-
-
+            $historique = "SELECT * FROM cotisation WHERE id_cotisation='$editC'";
+            $donnhist = $mysqli->query($historique) or die(mysqli_error($mysqli));
+            $res = $donnhist->fetch_array();
+        } else {
+            $v1 = "<script> dialoginfo(\"Libellé de la cotisation n'existe pas !\", \"cotisation.php\"); </script>";
+        }
+    }
+}
 
   ?>
 
@@ -132,7 +87,7 @@ header("Location:../index.php");
 <head>
   <meta charset="utf-8">
   
-  <?php  include("../Blocs_HTML/script_bootstrap_header.php");  ?>
+  <?php  include '../Blocs_HTML/script_bootstrap_header.php'; ?>
 
   <title>Cotisation</title>
   <link rel="stylesheet" href="../CSS/Style.css">
@@ -145,7 +100,7 @@ header("Location:../index.php");
 
 <body>
 
- <?php    include("../Blocs_HTML/nav.php"); ?>
+ <?php    include '../Blocs_HTML/nav.php'; ?>
 
 <div class="jumbotron jumbotron-fluid cotisation accueil">
   <div class="container">
@@ -155,14 +110,14 @@ header("Location:../index.php");
   <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Libellé : </label>
-      <input type="text" class="form-control" id="libellecotisation" placeholder="Cotisation" name="cotisation" value="<?php  echo utf8_encode($res['libelle_cotisation']);  ?>" >
+      <input type="text" class="form-control" id="libellecotisation" placeholder="Cotisation" name="cotisation" value="<?php  echo utf8_encode($res['libelle_cotisation']); ?>" >
     </div>
   </div>
 
     <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Montant : </label>
-      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EUROS" name="montant"  value="<?php  echo utf8_encode($res['montant']);  ?>">
+      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EUROS" name="montant"  value="<?php  echo utf8_encode($res['montant']); ?>">
 
     </div>
   </div>
@@ -170,7 +125,7 @@ header("Location:../index.php");
    <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Validité : </label>
-      <input  class="form-control" id="datepicker"  name="valide" placeholder="Date de Validité" value="<?php  echo utf8_encode($res['date_validite']);  ?>" >
+      <input  class="form-control" id="datepicker"  name="valide" placeholder="Date de Validité" value="<?php  echo utf8_encode($res['date_validite']); ?>" >
     </div>
 
         <script type="text/javascript">
@@ -211,8 +166,8 @@ header("Location:../index.php");
 </div>
 </div>
 
-<?php  echo $v1;   ?>
-<?php    include("../Blocs_HTML/footer.php"); ?>
+<?php  echo $v1; ?>
+<?php    include '../Blocs_HTML/footer.php'; ?>
 
 
 </body>

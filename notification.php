@@ -2,6 +2,7 @@
 
 include("DB/base.php");
 
+
 $out='';
             $query_2 = "SELECT personne.nom FROM diplome_personne,personne WHERE personne.id_personne=diplome_personne.id_personne AND status=1 ";
             $result_2 = $mysqli->query($query_2);

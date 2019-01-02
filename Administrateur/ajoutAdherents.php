@@ -130,7 +130,7 @@ header("Location:../index.php");
                     $sqlins="INSERT INTO personne (id_personne,nom,prenom,date_de_naissance,lieu_de_naissance,pays_naissance,departement_naissance,mail,uid_inscription) VALUES ('$id_roleP','$nomP','$prenomP','$dateP','$lieuP','$selectP','Etranger','$mailP', '$ran')";
                     insertDB($sqlins);
 
-     require_once("enteteMail.php");
+     require_once("SMTPMail.php");
     $mail->Subject = utf8_decode('Création d\'un compte FFSFP');       //Sets the Subject of the message
     $mail->Body = utf8_decode('<p>Bonjour</p>
                 <p>veuillez compléter le formulaire d\'inscription en cliquant sur ce lien.</p> 
@@ -177,7 +177,7 @@ header("Location:../index.php");
                 } 
 
 
-            require_once("enteteMail.php"); 
+        require_once("SMTPMail.php");
     $mail->Subject = utf8_decode('Création d\'un compte FFSFP');       //Sets the Subject of the message
     $mail->Body = utf8_decode('<p>Bonjour</p>
                 <p>veuillez compléter le formulaire d\'inscription en cliquant sur ce lien.</p> 

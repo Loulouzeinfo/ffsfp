@@ -2,17 +2,10 @@
 
 include("Fonction/fonction.php");
 
-// Heure actuelle
-echo date('h:i:s') . "\n";
 
-// Stoppe pour 10 secondes
-sleep(10);
+$tabF=selectDB("SELECT * FROM formation WHERE libelle_formation='PVR'"); 
 
-// retour !
-echo date('h:i:s') . "\n";
-
-
-
+      var_dump($tabF);
 
 ?>
 

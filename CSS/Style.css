@@ -397,4 +397,33 @@ overflow-y: auto;
 
 .soul{
 	text-decoration: underline;
+	font-style: italic;
+	font-weight:bold;
+	font-size: 18px;
+}
+
+#nompers{
+
+	background-color: #eee;
+	cursor: pointer;
+}
+.nomli{
+	padding: 3px;
+}
+
+.nomlif1{
+	padding: 3px;
+}
+
+.nomlif2{
+	padding: 3px;
+}
+
+.nomlim{
+	padding: 3px;
+}
+
+#lirouge{
+	background-color: red;
+	color: white;
 }

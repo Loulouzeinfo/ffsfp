@@ -11,6 +11,7 @@ if (!isset($_SESSION['login'])) {
     if (isset($_SESSION['action']) and (time() - $_SESSION['action']) < 300) {
         $_SESSION['action'] = time();
     } else {
+        session_destroy();
         $v1 = '<script>
                swal({
 

@@ -1,7 +1,7 @@
 <?php
 session_start();
-include "../DB/base.php";
-include "../Fonction/fonction.php";
+include '../DB/base.php';
+include '../Fonction/fonction.php';
 $profile = '';
 
 $v1 = '';
@@ -10,27 +10,22 @@ $tabF = array('libelle_formation' => '');
 $out = '';
 
 if (!isset($_SESSION['login'])) {
-    header("Location:../index.php");
-
+    header('Location:../index.php');
 } else {
-
     if (isset($_SESSION['action']) and (time() - $_SESSION['action']) < 300) {
-
         $_SESSION['action'] = time();
-
     } else {
-
-        $v1 = "<script>
+        session_destroy();
+        $v1 = '<script>
                swal({
 
-                text: \"Vous êtes déconnecté !\",
-                icon: \"info\"
+                text: "Vous êtes déconnecté !",
+                icon: "info"
                 }).then(function() {
-                window.location = \"../index.php\";
+                window.location = "../index.php";
                  });
 
-               </script>";
-
+               </script>';
     }
 
     $sess = $_SESSION['login'];
@@ -39,95 +34,69 @@ if (!isset($_SESSION['login'])) {
     $respro = $donpro->fetch_array();
     $profile = $respro['prenom'];
 
-    $sqForm = "SELECT * FROM formation ";
+    $sqForm = 'SELECT * FROM formation ';
     $donproF = $mysqli->query($sqForm) or die(mysqli_error($mysqli));
     while ($resproF = $donproF->fetch_array()) {
-
         $formation[] = $resproF;
-        # code...
+        // code...
     }
 
     if (isset($_POST['submit'])) {
-
         if (!empty($_POST['libelleForma'])) {
-
             $libelleForma = $mysqli->real_escape_string(trim(verif($_POST['libelleForma'])));
 
             if (RowsOne("SELECT * FROM formation WHERE libelle_formation='$libelleForma'") == false) {
-
                 if (isset($_POST['age'])) {
-
                     $sqlch = "INSERT INTO formation(libelle_formation,age) VALUES ('$libelleForma',1)";
                     insertDB($sqlch);
-
                 } else {
-
                     $sqlch = "INSERT INTO formation(libelle_formation,age) VALUES ('$libelleForma',0)";
                     insertDB($sqlch);
                 }
             } else {
-
                 if (isset($_POST['age'])) {
-
                     $sqlch = "UPDATE formation SET libelle_formation='$libelleForma', age= 1 WHERE libelle_formation= '$libelleForma' ";
                     insertDB($sqlch);
-
                 } else {
-
                     $sqlch = "UPDATE formation SET libelle_formation='$libelleForma' , age= 0 WHERE libelle_formation= '$libelleForma'";
                     insertDB($sqlch);
                 }
-
             }
 
             foreach ($_POST['l'] as $key) {
-
-                if ($key == "NULL") {
+                if ($key == 'NULL') {
                     continue;
-
                 } else {
-
                     $sqPreroquis = "INSERT INTO prerequis(libelle_formation,libellePreroquis) VALUES ('$libelleForma','$key')";
                     insertDB($sqPreroquis);
-
                 }
             }
 
             foreach ($_POST['prero'] as $key1) {
-
-                if ($key1 == "NULL") {
+                if ($key1 == 'NULL') {
                     continue;
-
                 } else {
-
                     $sqPrerogative = "INSERT INTO prerogative(libelle_formation,libellePrerogative) VALUES ('$libelleForma','$key1')";
                     insertDB($sqPrerogative);
-
                 }
             }
 
-            $v1 = "<script> dialogsuccess(\"Enregistré\",\"formation.php\"); </script>";
-
+            $v1 = '<script> dialogsuccess("Enregistré","formation.php"); </script>';
         } else {
-
-            $v1 = "<script> dialoginfo(\"Le champs Libellé est vide\",\"formation.php\"); </script>";
+            $v1 = '<script> dialoginfo("Le champs Libellé est vide","formation.php"); </script>';
         }
-
     }
 
     if (isset($_GET['editF'])) {
-
         $editF = $mysqli->real_escape_string(trim(verif($_GET['editF'])));
         $tabF = selectDB("SELECT * FROM formation WHERE id_formation='$editF'");
 
         if ($tabF['age'] == 1) {
-            $out .= "checked";
+            $out .= 'checked';
         } else {
-            $out .= "";
+            $out .= '';
         }
-
     }
-
 }
 
 ?>
@@ -138,7 +107,7 @@ if (!isset($_SESSION['login'])) {
 <head>
   <meta charset="utf-8">
 
-  <?php include "../Blocs_HTML/script_bootstrap_header.php";?>
+  <?php include '../Blocs_HTML/script_bootstrap_header.php'; ?>
 
   <title>Cotisation</title>
   <link rel="stylesheet" href="../CSS/Style.css">
@@ -151,7 +120,7 @@ if (!isset($_SESSION['login'])) {
 
 <body>
 
- <?php include "../Blocs_HTML/nav.php";?>
+ <?php include '../Blocs_HTML/nav.php'; ?>
 
 <div class="jumbotron jumbotron-fluid cotisation accueil">
 
@@ -163,7 +132,7 @@ if (!isset($_SESSION['login'])) {
   <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Libellé : </label>
-      <input type="text" class="form-control" id="libelleForma" placeholder="Libellé de la Formation" name="libelleForma" value="<?php echo ($tabF['libelle_formation']); ?>" >
+      <input type="text" class="form-control" id="libelleForma" placeholder="Libellé de la Formation" name="libelleForma" value="<?php echo $tabF['libelle_formation']; ?>" >
     </div>
   </div>
 
@@ -173,7 +142,7 @@ if (!isset($_SESSION['login'])) {
     <div class="col-sm-4">
       <div class="form-check">
 
-        <input class="form-check-input" type="checkbox" id="gridCheck1" name="age" <?php echo ($out); ?> >
+        <input class="form-check-input" type="checkbox" id="gridCheck1" name="age" <?php echo $out; ?> >
         <label class="form-check-label" for="gridCheck1">
           18 Ans.
         </label>
@@ -189,9 +158,7 @@ if (!isset($_SESSION['login'])) {
         <option value="NULL" selected>Choisir une formation</option>
 
         <?php foreach ($formation as $key) {
-
-    echo "<option value=" . utf8_encode($key['libelle_formation']) . ">" . utf8_encode($key['libelle_formation']) . "</option>";
-
+    echo '<option value='.utf8_encode($key['libelle_formation']).'>'.utf8_encode($key['libelle_formation']).'</option>';
 }?>
       </select>
       </div>
@@ -220,9 +187,7 @@ if (!isset($_SESSION['login'])) {
         <select id="inputState" class="form-control" name="prero[]">
         <option value="NULL" selected>Choisir une formation</option>
         <?php foreach ($formation as $key) {
-
-    echo "<option value=" . utf8_encode($key['libelle_formation']) . ">" . utf8_encode($key['libelle_formation']) . "</option>";
-
+    echo '<option value='.utf8_encode($key['libelle_formation']).'>'.utf8_encode($key['libelle_formation']).'</option>';
 }?>
       </select>
       </div>
@@ -253,7 +218,7 @@ if (!isset($_SESSION['login'])) {
 </div>
 
 <?php echo $v1; ?>
-<?php include "../Blocs_HTML/footer.php";?>
+<?php include '../Blocs_HTML/footer.php';?>
 
 
 </body>

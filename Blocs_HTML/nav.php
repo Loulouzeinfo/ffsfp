@@ -1,33 +1,26 @@
 <?php
-$s='';
+$s = '';
 
-  $reqsql="SELECT * FROM personne,role,assoc_per_rol WHERE mail='$sess' AND personne.id_personne=assoc_per_rol.id_personne
+$reqsql = "SELECT * FROM personne,role,assoc_per_rol WHERE mail='$sess' AND personne.id_personne=assoc_per_rol.id_personne
                  AND assoc_per_rol.id_role=role.id_role";
-                  $donpro= $mysqli->query($reqsql)or die(mysqli_error($mysqli));
-                  while ($respro= $donpro->fetch_array()) {
-                      # code...
-                    $tableau[] =$respro['libelle'];
-                  }
-                  if (in_array("FORMATEUR", $tableau)) {
-
-
-
-                    $s.= "<li class=\"nav-item dropdown\">
-      <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbardrop\" data-toggle=\"dropdown\">
+$donpro = $mysqli->query($reqsql) or die(mysqli_error($mysqli));
+while ($respro = $donpro->fetch_array()) {
+    // code...
+    $tableau[] = $respro['libelle'];
+}
+if (in_array('FORMATEUR', $tableau)) {
+    $s .= '<li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         FORMATEUR
       </a>
-      <div class=\"dropdown-menu\">
-        <a class=\"dropdown-item\" href=\"\">Espace Admin </a>
-        
-        
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="">Espace Admin </a>
+
+
       </div>
-     
-    </li>";
 
-                  
-                  }
-                 
-
+    </li>';
+}
 
 ?>
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light navbar-dark bg-dark ">
@@ -35,11 +28,11 @@ $s='';
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+  <div class="collapse navbar-collapse" id="navbarNavDropdown" style="margin-right: 50px;">
     <ul class="navbar-nav  ml-auto top">
 
       <li class="navbar"><a href="accueil.php"><i class="fas fa-home"></i></a></li>
-      
+
     <li class="nav-item dropdown">
       <a class="nav-link " href="#" id="navbardrop" data-toggle="dropdown"><i class="fas fa-bell" id="iconnot"> </i><span id="count" class="badge badge-danger count" style="border-radius:10px;"></span>
       </a>
@@ -52,12 +45,12 @@ $s='';
         Adhérents
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="gestion_adh.php">Gestion Adhérents </a>
-        <a class="dropdown-item" href="ajoutAdherents.php">Ajouter adhérents</a>
-        <div class="dropdown-divider"></div>  
+        <a class="dropdown-item" href="gestion_adh.php">Gestion adhérents </a>
+        <a class="dropdown-item" href="ajoutAdherents.php">Ajouter adhérent</a>
+        <div class="dropdown-divider"></div>
         <a class="dropdown-item " href="import.php">Import des données .csv</a>
 
-        
+
       </div>
     </li>
 
@@ -70,16 +63,16 @@ $s='';
 
       <div class="dropdown-menu scrollable_menu">
         <a class="dropdown-item" style="pointer-events: none; cursor: default;" href="">Financier </a>
-         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="cotisation.php"> Paramétrage des cotisations </a></li></ul>  
+         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="cotisation.php"> Paramétrage des cotisations </a></li></ul>
          <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="ParamDiplome.php"> Paramétrage du coût du diplôme </a></li></ul>
-         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="historique.php">Historiques</a></li></ul> 
+         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="historique.php">Historiques</a></li></ul>
          <div class="dropdown-divider"></div>
-        <a class="dropdown-item"style="pointer-events: none; cursor: default;" href="">Formation </a> 
-         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="formation.php"> Paramétrage Formation </a></li></ul>
-         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="historiqueParamFormation.php"> Historiques  </a></li></ul>   
-        <a class="dropdown-item"style="pointer-events: none; cursor: default;" href="">Modèle </a> 
-        <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="modeleDiplome.php"> Modèles diplômes </a></li></ul>
-         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="HistoriquesModeles.php"> Historiques  </a></li></ul> 
+        <a class="dropdown-item"style="pointer-events: none; cursor: default;" href="">Formation </a>
+         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="formation.php"> Paramétrage formation </a></li></ul>
+         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="historiqueParamFormation.php"> Historique  </a></li></ul>
+        <a class="dropdown-item"style="pointer-events: none; cursor: default;" href="">Modèle </a>
+        <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="modeleDiplome.php"> Modèles de documents </a></li></ul>
+         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="HistoriquesModeles.php"> Historiques  </a></li></ul>
       </div>
     </li>
        <li class="nav-item dropdown">
@@ -87,29 +80,30 @@ $s='';
         Délégations
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="">Gestion de délégations </a>
-        <a class="dropdown-item" href="">Ajouter une délégation</a>
-        
+        <a class="dropdown-item" href="historiqueDelegue.php">Gestion de délégations </a>
+        <a class="dropdown-item" href="AjoutDelegation.php">Ajouter une délégation</a>
+
       </div>
-     
+
     </li>
 
-<?php  echo $s;  ?>
-    
+<?php echo $s; ?>
+
     <li class="nav-item dropdown p">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        Bonjour <?php  echo $profile;  ?> 
+        Bonjour <?php echo $profile; ?>
       </a>
 
       <div class="dropdown-menu">
 
 
-        <a class="dropdown-item" href="profile.php">Profil</a> 
-        <a class="dropdown-item" href="#">Diplômes</a>  
-         <a class="dropdown-item" href="#">Cotisations</a>
-         
+        <a class="dropdown-item" href="profile.php">Profil</a>
+        <a class="dropdown-item" href="#">Diplômes</a>
+        <a class="dropdown-item" href="../Administrateur/cotisationAdherent.php">Payer ma cotisation</a>
+        <a class="dropdown-item" href="../Administrateur/historiqueCotisation.php">Historique des paiments</a>
 
-        <div class="dropdown-divider"></div>     
+
+        <div class="dropdown-divider"></div>
        <a class="dropdown-item" href="../deconnectionSession.php">Déconnexion</a>
       </div>
 

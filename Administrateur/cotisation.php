@@ -1,12 +1,12 @@
-<?php 
- session_start();
- include '../DB/base.php';
- include '../Fonction/fonction.php';
+<?php
+session_start();
+include '../DB/base.php';
+include '../Fonction/fonction.php';
 $res = array(
     'libelle_cotisation' => '',
     'montant' => '',
     'date_validite' => '',
-  );
+);
 $profile = '';
 
 $v1 = '';
@@ -17,15 +17,16 @@ if (!isset($_SESSION['login'])) {
     if (isset($_SESSION['action']) and (time() - $_SESSION['action']) < 300) {
         $_SESSION['action'] = time();
     } else {
+        session_destroy();
         $v1 = '<script>
                swal({
-                
+
                 text: "Vous êtes déconnecté !",
                 icon: "info"
                 }).then(function() {
                 window.location = "../index.php";
                  });
-               
+
                </script>';
     }
 
@@ -39,29 +40,30 @@ if (!isset($_SESSION['login'])) {
         $cotisation = $mysqli->real_escape_string(trim(verif($_POST['cotisation'])));
         $montant = $mysqli->real_escape_string(trim(verif($_POST['montant'])));
         $valide = $mysqli->real_escape_string(trim(verif($_POST['valide'])));
+        $Tarification = iconv('UTF-8', 'ISO-8859-1//IGNORE', $_POST['Tarification']);
 
-        if (!empty($cotisation) && !empty($montant) && !empty($valide)) {
-            $sql22 = "SELECT * FROM cotisation WHERE libelle_cotisation='$cotisation'";
+        if (!empty($cotisation) && !empty($montant) && !empty($valide) && !empty($Tarification)) {
+            $sql22 = "SELECT * FROM cotisation WHERE libelle_cotisation='$cotisation' AND tarification='$Tarification'";
             $donpro = $mysqli->query($sql22) or die(mysqli_error($mysqli));
             $rows = $donpro->num_rows;
 
             if ($rows == 1) {
-                $sqlup = "UPDATE cotisation SET libelle_cotisation='$cotisation', montant='$montant',date_validite='$valide' WHERE libelle_cotisation='$cotisation' ";
+                $sqlup = "UPDATE cotisation SET libelle_cotisation='$cotisation', montant='$montant',date_validite='$valide',tarification='$Tarification' WHERE libelle_cotisation='$cotisation' ";
                 insertDB($sqlup);
                 $v1 = '<script> dialogsuccess("Mise à jour réussie", "historique.php"); </script>';
             } else {
-                $sql = "INSERT INTO cotisation (libelle_cotisation,montant,date_validite) VALUES ('$cotisation','$montant','$valide')";
+                $sql = "INSERT INTO cotisation (libelle_cotisation,montant,date_validite,tarification) VALUES ('$cotisation','$montant','$valide','$Tarification')";
                 insertDB($sql);
                 $v1 = '<script> dialogsuccess("Enregistré", "historique.php"); </script>';
             }
         } else {
             $v1 = '<script>
                swal({
-                
-                text: "tous les champs sont obligatoires !",
+
+                text: "tous les champs sont obligatoires ",
                 icon: "info"
                 });
-               
+
                </script>';
         }
     }
@@ -79,15 +81,15 @@ if (!isset($_SESSION['login'])) {
     }
 }
 
-  ?>
+?>
 
 
 <!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  
-  <?php  include '../Blocs_HTML/script_bootstrap_header.php'; ?>
+
+  <?php include '../Blocs_HTML/script_bootstrap_header.php'; ?>
 
   <title>Cotisation</title>
   <link rel="stylesheet" href="../CSS/Style.css">
@@ -100,7 +102,7 @@ if (!isset($_SESSION['login'])) {
 
 <body>
 
- <?php    include '../Blocs_HTML/nav.php'; ?>
+ <?php include '../Blocs_HTML/nav.php'; ?>
 
 <div class="jumbotron jumbotron-fluid cotisation accueil">
   <div class="container">
@@ -110,14 +112,14 @@ if (!isset($_SESSION['login'])) {
   <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Libellé : </label>
-      <input type="text" class="form-control" id="libellecotisation" placeholder="Cotisation" name="cotisation" value="<?php  echo utf8_encode($res['libelle_cotisation']); ?>" >
+      <input type="number" class="form-control" id="libellecotisation" placeholder="Cotisation" name="cotisation" value="<?php echo utf8_encode($res['libelle_cotisation']); ?>" >
     </div>
   </div>
 
     <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Montant : </label>
-      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EUROS" name="montant"  value="<?php  echo utf8_encode($res['montant']); ?>">
+      <input type="number" class="form-control" id="montantcotisation" placeholder="Montant EUROS" name="montant"  value="<?php echo utf8_encode($res['montant']); ?>">
 
     </div>
   </div>
@@ -125,7 +127,7 @@ if (!isset($_SESSION['login'])) {
    <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationDefault01">Validité : </label>
-      <input  class="form-control" id="datepicker"  name="valide" placeholder="Date de Validité" value="<?php  echo utf8_encode($res['date_validite']); ?>" >
+      <input  class="form-control" id="datepicker"  name="valide" placeholder="Date de Validité" value="<?php echo utf8_encode($res['date_validite']); ?>" >
     </div>
 
         <script type="text/javascript">
@@ -152,12 +154,24 @@ if (!isset($_SESSION['login'])) {
     </script>
   </div>
 
-   
+  <div class="form-row">
+  <div class="col-md-4 mb-3">
+      <label for="validationDefault04">Tarification : </label>
+      <select id="idtarif" class="form-control" name="Tarification" >
+        <option  value="adhésion" selected>adhésion</option>
+        <option  value="renouvellement">renouvellement</option>
+
+      </select>
+
+    </div>
+    </div>
+
+
 
     <div class="form-row">
    <div class="col-md-4 mb-3">
       <button type="submit" class="btn btn-primary" name="submit">Valider</button>
-</div>
+    </div>
     </div>
 
 </form>
@@ -166,8 +180,8 @@ if (!isset($_SESSION['login'])) {
 </div>
 </div>
 
-<?php  echo $v1; ?>
-<?php    include '../Blocs_HTML/footer.php'; ?>
+<?php echo $v1; ?>
+<?php include '../Blocs_HTML/footer.php'; ?>
 
 
 </body>

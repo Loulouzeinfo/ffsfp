@@ -1,23 +1,19 @@
 <?php
 session_start();
-include("../Fonction/fonction.php");
+include '../Fonction/fonction.php';
 
-$v1='';
-$v2='';
-$tab=array();
+$v1 = '';
+$v2 = '';
+$tab = array();
 
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
+    $mail = trim(strtolower(verif($_POST['mail'])));
+    $password = verif($_POST['password']);
 
-	$mail= trim(strtolower(verif($_POST['mail'])));
-	$password= verif($_POST['password']);
-
-	   if(!empty($mail) && !empty($password)){
-            if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
-
-                
-               $v1="<script>
+    if (!empty($mail) && !empty($password)) {
+        if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+            $v1 = "<script>
                swal({
-                title: \"Oops!\",
                 text: \"votre adresse mail n'est pas valide!\",
                  icon: \"error\"
                 }).then(function() {
@@ -25,33 +21,22 @@ if(isset($_POST['submit'])){
                  });
                
                </script>";
-                 
+        } else {
+            include '../DB/base.php';
+            $password = $mysqli->real_escape_string($password);
 
-               
-               
-             }else{
+            $password = hash('sha256', $password);
 
-                  include("../DB/base.php");
-                  $password= $mysqli->real_escape_string ($password);
-                  
-                  $password= hash('sha256', $password);
+            $sql = "SELECT * FROM personne WHERE  mail='$mail' AND password='$password'";
 
-                  $sql="SELECT assoc_per_rol.id_role FROM personne,role,assoc_per_rol WHERE personne.id_personne=assoc_per_rol.id_personne AND role.id_role=assoc_per_rol.id_role AND
-                    mail='$mail' AND password='$password'";
-                  $donn=$mysqli->query($sql)or die(mysqli_error($mysqli));
-                   while ($res= $donn->fetch_array()) {
-                    $tab[]=$res['id_role'];
-                  }
-
-                  if(in_array(1,$tab)){
-                  	$_SESSION['login']=$mail;
-                    $_SESSION['action'] = time();
-		                header("Location:../Administrateur/accueil.php");
-                    $mysqli->close();
-		                 exit;
-
-                  }else {
-                  	$v2="<script>
+            if (RowsOne($sql) == true) {
+                $_SESSION['login'] = $mail;
+                $_SESSION['action'] = time();
+                header('Location:../Administrateur/accueil.php');
+                $mysqli->close();
+                exit;
+            } else {
+                $v2 = "<script>
                  swal({
                 title: \"Erreur !\",
                 text: \"L'identifiant et/ou le mot de passe sont incorrects\",
@@ -61,18 +46,12 @@ if(isset($_POST['submit'])){
                  });
                
                </script>";
-                  }
-               
-             }
-
-          
-	   }
-
-             
-	}else 
-
-	header("Location:../index.php");
-
+            }
+        }
+    }
+} else {
+    header('Location:../index.php');
+}
 
 ?>
 
@@ -86,10 +65,8 @@ if(isset($_POST['submit'])){
 	<body>
 
        <?php  echo $v1;
-              
 
-
-              echo $v2; 
+              echo $v2;
          ?>
 
 	</body>

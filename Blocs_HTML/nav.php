@@ -8,19 +8,6 @@ while ($respro = $donpro->fetch_array()) {
     // code...
     $tableau[] = $respro['libelle'];
 }
-if (in_array('FORMATEUR', $tableau)) {
-    $s .= '<li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        FORMATEUR
-      </a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="">Espace Admin </a>
-
-
-      </div>
-
-    </li>';
-}
 
 ?>
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light navbar-dark bg-dark ">
@@ -28,11 +15,14 @@ if (in_array('FORMATEUR', $tableau)) {
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown" style="margin-right: 50px;">
+  <div class="collapse navbar-collapse" id="navbarNavDropdown" style="margin-right: 65px;">
     <ul class="navbar-nav  ml-auto top">
 
       <li class="navbar"><a href="accueil.php"><i class="fas fa-home"></i></a></li>
 
+     <?php
+            if (in_array('ADMINISTRATEUR', $tableau)) {
+                ?>
     <li class="nav-item dropdown">
       <a class="nav-link " href="#" id="navbardrop" data-toggle="dropdown"><i class="fas fa-bell" id="iconnot"> </i><span id="count" class="badge badge-danger count" style="border-radius:10px;"></span>
       </a>
@@ -87,13 +77,51 @@ if (in_array('FORMATEUR', $tableau)) {
 
     </li>
 
-<?php echo $s; ?>
 
+<?php
+            }
+       ?>
+<?php
+            if (in_array('ADHERENT', $tableau)) {
+                ?>
+
+
+<li class="nav-item dropdown p">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Mes données
+      </a>
+      
+      <div class="dropdown-menu">
+
+
+        <a class="dropdown-item" href="profile.php">Profil</a>
+        
+
+
+    </li>
+
+ <li class="nav-item dropdown p">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Formation
+      </a>
+      
+      <div class="dropdown-menu">
+
+
+        <a class="dropdown-item" href="profile.php">Profil</a>
+    </li>
+
+    
+
+
+
+            <?php
+            }  ?>
     <li class="nav-item dropdown p">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         Bonjour <?php echo $profile; ?>
       </a>
-
+      
       <div class="dropdown-menu">
 
 

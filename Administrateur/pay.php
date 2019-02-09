@@ -43,7 +43,7 @@ if (isset($_SESSION['ses'])) {
                 insertDB($sqlup);
             }
 
-            $ajout = "INSERT INTO paiement_histrorique (id_personne,libelle_annee,tarification_historique,montant_historique) VALUES ('$personne','$libelle','$tarif','$montant') ";
+            $ajout = "INSERT INTO paiement_histrorique (id_personne,libelle_annee,tarification_historique,montant_historique,moyen_paiment) VALUES ('$personne','$libelle','$tarif','$montant','Paypal') ";
             insertDB($ajout);
         }
 

@@ -201,6 +201,34 @@ $(document).ready(function () {
 });
 
 
+$(document).on('click','.nomli',function(){
+  $("#deleguer").val($(this).text());
+  $("#autocomNom").fadeOut();
+      
+});
+
+
+
+$(document).ready(function () {
+  
+  $("#cliqe").on('click', function () {
+    $(".poo").hide();
+    $(".po").fadeIn();
+    
+
+     
+  });
+
+  $("#cliqev").on('click', function () {
+    $(".po").hide();
+    $(".poo").fadeIn();
+     
+  });
+
+
+
+});
+
 $(document).ready(function () {
 
   $("#cli").on('click', function () {

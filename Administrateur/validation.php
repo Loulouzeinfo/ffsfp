@@ -44,7 +44,6 @@ if (!isset($_SESSION['login'])) {
                     $req = "SELECT * FROM virement WHERE id_virement='$id' AND id_personne='$id_personne' ";
                     $var = selectDB($req);
                 } else {
-                    console_log('2');
                     $req = "SELECT * FROM cheque WHERE id_cheque='$id' AND id_personne='$id_personne' ";
                     $var = selectDB($req);
                 }
@@ -54,11 +53,20 @@ if (!isset($_SESSION['login'])) {
         } else {
             header('Location:accueil.php');
         }
-    } else {
-        header('Location:accueil.php');
     }
 
-    if (isset($_POST['submit'])) {
+    if (isset($_GET['suppVirement'])) {
+        $id_virement = $mysqli->real_escape_string(trim(verif($_GET['suppVirement'])));
+        $sqldel = "DELETE FROM virement WHERE  id_virement= '$id_virement' ";
+        insertDB($sqldel);
+        $v1 = '<script> dialogsuccess("Virement supprimé","accueil.php"); </script>';
+    }
+
+    if (isset($_GET['suppCheque'])) {
+        $id_virement = $mysqli->real_escape_string(trim(verif($_GET['suppCheque'])));
+        $sqldel = "DELETE FROM cheque WHERE  id_cheque= '$id_virement' ";
+        insertDB($sqldel);
+        $v1 = '<script> dialogsuccess("Chèque supprimé","accueil.php"); </script>';
     }
 
     if (isset($_POST['submit'])) {
@@ -99,7 +107,7 @@ if (!isset($_SESSION['login'])) {
 
   </div>
 </div>
-<form method="post">
+<form methode="post">
   <div class="form-group form-row">
     <div class="col">
     <label>Date <?php  echo $test = ($typepaiment == 'Virement') ? 'virement' : 'du chèque'; ?></label>
@@ -146,7 +154,7 @@ if (!isset($_SESSION['login'])) {
     </div>
   </div>
   <button type="submit" class="btn btn-primary" name="submit">Valider</button>
-  <button type="submit" class="btn btn-primary" name="supprime">Supprimer</button>
+  <a href="validation.php?<?php  echo $test = ($typepaiment == 'Virement') ? 'suppVirement='.$var['id_virement'] : 'suppCheque='.$var['id_cheque']; ?>" class="btn btn-primary">Supprimer</a>
 </form>
 
 

@@ -74,7 +74,7 @@ if (!isset($_SESSION['login'])) {
         if ($_POST['dateVirement'] && $_POST['montantVirement'] && $_POST['banqueVirement'] && $_POST['libelleVirement']) {
             $dateVirement = $mysqli->real_escape_string(trim(verif($_POST['dateVirement'])));
             $montantVirement = $mysqli->real_escape_string(trim(verif($_POST['montantVirement'])));
-            $banqueVirement = iconv('UTF-8', 'ISO-8859-1//IGNORE', $_POST['banqueVirement']);
+            $banqueVirement = $mysqli->real_escape_string(trim(verif($_POST['banqueVirement'])));
             $libelleVirement = iconv('UTF-8', 'ISO-8859-1//IGNORE', $_POST['libelleVirement']);
 
             $ajout = "INSERT INTO virement (id_personne,montant_virement,libelle_virement,banque_virement,date_virement,statut_virement) VALUES ('$id','$montantVirement','$libelleVirement','$banqueVirement','$dateVirement',0) ";

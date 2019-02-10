@@ -4,8 +4,9 @@ include 'DB/base.php';
 include 'Fonction/fonction.php';
 $ad = iconv('UTF-8', 'ISO-8859-1//IGNORE', 'adhérent');
 $anne = intval(date('Y'));
-$anne = ++$anne;
-echo $anne;
+$date = date('d').'/'.date('m').'/'.$anne;
+
+echo $date;
 
 /*$requeteTarifica = "INSERT INTO cotisationniveau (id_personne,cotisationN,etat,anneCotisation) VALUES ('125d','$ad',0,'2098')";
 $mysqli->query($requeteTarifica) or die(mysqli_error($mysqli));*/

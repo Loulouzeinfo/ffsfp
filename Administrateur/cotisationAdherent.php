@@ -51,8 +51,8 @@ if (!isset($_SESSION['login'])) {
         'personne' => $resco['id_personne'],
     );
 
-    $req = 'SELECT * FROM cheque WHERE statut_cheque=0';
-    $reqVirement = 'SELECT * FROM virement WHERE statut_virement=0';
+    $req = "SELECT * FROM cheque WHERE statut_cheque=0 AND id_personne='$id'";
+    $reqVirement = "SELECT * FROM virement WHERE statut_virement=0 AND id_personne='$id'";
 
     if (isset($_POST['submitCheque'])) {
         if ($_POST['dateCheque'] && $_POST['montantCheque'] && $_POST['banqueCheque'] && $_POST['numerCheque']) {
@@ -301,6 +301,7 @@ if (!$resco == null) {
     </div>
   </div>
   <button type="submit" class="btn btn-primary" name="submitVirement">Valider</button>
+  
 </form>
 
 

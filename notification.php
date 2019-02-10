@@ -23,12 +23,12 @@ $out = '';
 
                 while ($che = $result_1->fetch_array()) {
                     // code...
-                    $out .= '<a href="validation.php?id_personne='.$che['id_personne'].'"><li class="dropdown-item">Chèque : <ul><li>'.$che['prenom'].' '.$che['nom'].'</li></ul></li></a><div class="dropdown-divider"></div>';
+                    $out .= '<a href="validation.php?id_personne='.$che['id_personne'].'&id='.$che['id_cheque'].'&typePaiment=Cheque'.'"><li class="dropdown-item">Chèque : <ul><li>'.$che['prenom'].' '.$che['nom'].'</li></ul></li></a><div class="dropdown-divider"></div>';
                 }
 
                 while ($vir = $result_3->fetch_array()) {
                     // code...
-                    $out .= '<a href="validation.php?id_personne='.$vir['id_personne'].'"><li class="dropdown-item">Virement : <ul><li>'.$vir['prenom'].' '.$vir['nom'].'</li></ul></li></a><div class="dropdown-divider"></div>';
+                    $out .= '<a href="validation.php?id_personne='.$vir['id_personne'].'&id='.$vir['id_virement'].'&typePaiment=Virement'.'"><li class="dropdown-item">Virement : <ul><li>'.$vir['prenom'].' '.$vir['nom'].'</li></ul></li></a><div class="dropdown-divider"></div>';
                 }
             } else {
                 $out .= '<li class="dropdown-item" >  Aucune notification trouvée  </li>';

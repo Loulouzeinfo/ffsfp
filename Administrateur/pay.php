@@ -7,6 +7,7 @@ $ids = require 'paypal.php';
 require '../vendor/autoload.php';
 
 $anne = intval(date('Y'));
+$date = date('d').'/'.date('m').'/'.$anne;
 $anne = ++$anne;
 if (isset($_SESSION['ses'])) {
     $personne = $_SESSION['ses']['personne'];
@@ -43,7 +44,7 @@ if (isset($_SESSION['ses'])) {
                 insertDB($sqlup);
             }
 
-            $ajout = "INSERT INTO paiement_histrorique (id_personne,libelle_annee,tarification_historique,montant_historique,moyen_paiment) VALUES ('$personne','$libelle','$tarif','$montant','Paypal') ";
+            $ajout = "INSERT INTO paiement_histrorique (id_personne,libelle_annee,tarification_historique,montant_historique,moyen_paiment,date_paiment) VALUES ('$personne','$libelle','$tarif','$montant','Paypal','$date') ";
             insertDB($ajout);
         }
 

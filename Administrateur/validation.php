@@ -6,6 +6,8 @@ $tab = array();
 $profile = '';
 $v1 = '';
 $var = '';
+$anne = intval(date('Y'));
+$anne = ++$anne;
 
 if (!isset($_SESSION['login'])) {
     header('Location:../index.php');
@@ -36,15 +38,15 @@ if (!isset($_SESSION['login'])) {
     if (isset($_GET['id_personne']) && isset($_GET['id']) && isset($_GET['typePaiment'])) {
         if (!empty($_GET['id_personne']) && !empty($_GET['id']) && !empty($_GET['typePaiment'])) {
             $id_personne = $mysqli->real_escape_string(trim(verif($_GET['id_personne'])));
-            $id = $mysqli->real_escape_string(trim(verif($_GET['id'])));
+            $ids = $mysqli->real_escape_string(trim(verif($_GET['id'])));
             $typepaiment = $mysqli->real_escape_string(trim(verif($_GET['typePaiment'])));
 
             if ($typepaiment == 'Virement' || $typepaiment == 'Cheque') {
                 if ($typepaiment == 'Virement') {
-                    $req = "SELECT * FROM virement WHERE id_virement='$id' AND id_personne='$id_personne' ";
+                    $req = "SELECT * FROM virement WHERE id_virement='$ids' AND id_personne='$id_personne' ";
                     $var = selectDB($req);
                 } else {
-                    $req = "SELECT * FROM cheque WHERE id_cheque='$id' AND id_personne='$id_personne' ";
+                    $req = "SELECT * FROM cheque WHERE id_cheque='$ids' AND id_personne='$id_personne' ";
                     $var = selectDB($req);
                 }
             } else {
@@ -70,6 +72,59 @@ if (!isset($_SESSION['login'])) {
     }
 
     if (isset($_POST['submit'])) {
+        if ($_GET['typePaiment'] == 'Virement') {
+            $date_p = $_POST['datename'];
+            $tar = utf8_decode($_POST['tarif']);
+            $pieces = explode('/', $_POST['datename']);
+            $idauto = $_POST['idauto'];
+            $idc = $_GET['id_personne'];
+
+            $mnt = $_POST['montant'];
+            $banqeP = $_POST['banqueP'];
+            $libelleP = $_POST['libelleP'];
+            $ajout = "INSERT INTO paiement_histrorique (id_personne,libelle_annee,tarification_historique,montant_historique,moyen_paiment) VALUES ('$idc','$pieces[2]','$tar','$mnt','Virement') ";
+            insertDB($ajout);
+
+            $updvir = "UPDATE virement SET statut_virement = 1, montant_virement='$mnt',libelle_virement='$libelleP',banque_virement='$banqeP',date_virement='$date_p'  WHERE id_personne= '$idc' AND id_virement='$idauto'";
+            insertDB($updvir);
+
+            if (iconv('UTF-8', 'ISO-8859-1//IGNORE', $tar) == 'adhésion') {
+                $sqlup = "UPDATE cotisationniveau SET  cotisationN= 'renouvellement', anneCotisation='$anne'  WHERE id_personne='$idc' ";
+                insertDB($sqlup);
+            } else {
+                $sqlup = "UPDATE cotisationniveau SET  anneCotisation='$anne'  WHERE id_personne='$idc' ";
+                insertDB($sqlup);
+            }
+
+            $v1 = '<script> dialogsuccess("Le virement est validé","accueil.php"); </script>';
+        } elseif ($_GET['typePaiment'] == 'Cheque') {
+            $date_p = $_POST['datename'];
+            $tar = utf8_decode($_POST['tarif']);
+            $pieces = explode('/', $_POST['datename']);
+            $idauto = $_POST['idauto'];
+            $idc = $_GET['id_personne'];
+
+            $mnt = $_POST['montant'];
+            $banqeP = $_POST['banqueP'];
+            $libelleP = $_POST['libelleP'];
+
+            $ajout = "INSERT INTO paiement_histrorique (id_personne,libelle_annee,tarification_historique,montant_historique,moyen_paiment) VALUES ('$idc','$pieces[2]','$tar','$mnt','Cheque') ";
+            insertDB($ajout);
+
+            $updvir = "UPDATE cheque SET statut_cheque = 1, montant_cheque='$mnt', banque_cheque='$banqeP', num_cheque='$libelleP', date_cheque='$date_p'  WHERE id_personne= '$idc' AND id_cheque='$idauto'";
+            insertDB($updvir);
+
+            if (iconv('UTF-8', 'ISO-8859-1//IGNORE', $tar) == 'adhésion') {
+                $sqlup = "UPDATE cotisationniveau SET  cotisationN= 'renouvellement', anneCotisation='$anne'  WHERE id_personne='$idc' ";
+                insertDB($sqlup);
+            } else {
+                $sqlup = "UPDATE cotisationniveau SET  anneCotisation='$anne'  WHERE id_personne='$idc' ";
+                insertDB($sqlup);
+            }
+
+            $v1 = '<script> dialogsuccess("Le virement est validé","accueil.php"); </script>';
+        } else {
+        }
     }
 }
 
@@ -107,38 +162,20 @@ if (!isset($_SESSION['login'])) {
 
   </div>
 </div>
-<form methode="post">
+<form method="post">
   <div class="form-group form-row">
     <div class="col">
     <label>Date <?php  echo $test = ($typepaiment == 'Virement') ? 'virement' : 'du chèque'; ?></label>
-      <input id="datevir" name="dateVirement" class="form-control"  value="<?php  $dateP = ($typepaiment == 'Virement') ? utf8_encode($var['date_virement']) : utf8_encode($var['date_cheque']); echo $dateP; ?>">
+      <input id="datevir" name="datename" class="form-control"  value="<?php  $dateP = ($typepaiment == 'Virement') ? utf8_encode($var['date_virement']) : utf8_encode($var['date_cheque']); echo $dateP; ?>" >
     </div>
 
-    <script type="text/javascript">
-      $('#datevir').datepicker({
+  
 
-            altField: "#datepicker",
-            closeText: 'Fermer',
-            prevText: 'Précédent',
-            nextText: 'Suivant',
-            currentText: 'Aujourd\'hui',
-            monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
-            dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-            dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
-            dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-            weekHeader: 'Sem.',
-            dateFormat: 'dd/mm/yy',
-            changeMonth: true,
-            changeYear: true,
-            minDate: 0
-
-        });
-
-    </script>
+<input  type="hidden" name="idauto"  value="<?php  echo $idauto = ($typepaiment == 'Virement') ? utf8_encode($var['id_virement']) : utf8_encode($var['id_cheque']); ?>">
+    <input  type="hidden" name="tarif"  value="<?php  echo $tarif = ($typepaiment == 'Virement') ? utf8_encode($var['tarification']) : utf8_encode($var['tarification']); ?>">
     <div class="col">
     <label>Montant <?php  echo $test = ($typepaiment == 'Virement') ? 'virement' : 'du chèque'; ?></label>
-      <input type="text" name="montantVirement" class="form-control" value="<?php  $montantp = ($typepaiment == 'Virement') ? utf8_encode($var['montant_virement']) : utf8_encode($var['montant_cheque']); echo $montantp; ?>">
+      <input type="text" name="montant" class="form-control" value="<?php  $montantp = ($typepaiment == 'Virement') ? utf8_encode($var['montant_virement']) : utf8_encode($var['montant_cheque']); echo $montantp; ?>" >
     </div>
 
   </div>
@@ -146,11 +183,11 @@ if (!isset($_SESSION['login'])) {
   <div class="form-group form-row">
     <div class="col">
     <label>Banque </label>
-      <input type="text" name="banqueVirement" class="form-control" value="<?php  $banquep = ($typepaiment == 'Virement') ? utf8_encode($var['banque_virement']) : utf8_encode($var['banque_cheque']); echo $banquep; ?>">
+      <input type="text" name="banqueP" class="form-control" value="<?php  $banquep = ($typepaiment == 'Virement') ? utf8_encode($var['banque_virement']) : utf8_encode($var['banque_cheque']); echo $banquep; ?>" >
     </div>
     <div class="col">
     <label>Libelle <?php  echo $test = ($typepaiment == 'Virement') ? 'virement' : 'du chèque'; ?></label>
-      <input type="text" name="libelleVirement" class="form-control" value="<?php  $lib = ($typepaiment == 'Virement') ? utf8_encode($var['libelle_virement']) : utf8_encode($var['num_cheque']); echo $lib; ?>">
+      <input type="text" name="libelleP" class="form-control" value="<?php  $lib = ($typepaiment == 'Virement') ? utf8_encode($var['libelle_virement']) : utf8_encode($var['num_cheque']); echo $lib; ?>" >
     </div>
   </div>
   <button type="submit" class="btn btn-primary" name="submit">Valider</button>

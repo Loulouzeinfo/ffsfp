@@ -44,13 +44,16 @@ if (!isset($_SESSION['login'])) {
     if (isset($_POST['submit'])) {
         if (!empty($_POST['libelleForma'])) {
             $libelleForma = $mysqli->real_escape_string(trim(verif($_POST['libelleForma'])));
+            $min = $mysqli->real_escape_string(trim(verif($_POST['min'])));
+            $max = $mysqli->real_escape_string(trim(verif($_POST['max'])));
+            $for = $mysqli->real_escape_string(trim(verif($_POST['for'])));
 
             if (RowsOne("SELECT * FROM formation WHERE libelle_formation='$libelleForma'") == false) {
                 if (isset($_POST['age'])) {
-                    $sqlch = "INSERT INTO formation(libelle_formation,age) VALUES ('$libelleForma',1)";
+                    $sqlch = "INSERT INTO formation(libelle_formation,age,minstrag,maxstag,nbrformateur) VALUES ('$libelleForma',1,'$min','$max','$for')";
                     insertDB($sqlch);
                 } else {
-                    $sqlch = "INSERT INTO formation(libelle_formation,age) VALUES ('$libelleForma',0)";
+                    $sqlch = "INSERT INTO formation(libelle_formation,age,,minstrag,maxstag,nbrformateur) VALUES ('$libelleForma',0,,'$min','$max','$for')";
                     insertDB($sqlch);
                 }
             } else {
@@ -203,6 +206,30 @@ if (!isset($_SESSION['login'])) {
 
 </br></br>
 
+<div class="form-row">
+    <div class="col-md-4 mb-3">
+      <label for="min">Nombre minimum de stagaires  : </label>
+      <input type="number" class="form-control" id="min" placeholder="Min" name="min">
+
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-4 mb-3">
+      <label for="max">Nombre maximum de stagaires  : </label>
+      <input type="number" class="form-control" id="max" placeholder="Max" name="max">
+
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-4 mb-3">
+      <label for="for">Nombre de formateurs  : </label>
+      <input type="number" class="form-control" id="for" placeholder="Nombre de formateurs" name="for">
+
+    </div>
+  </div>
+
 
 
     <div class="form-row">
@@ -218,7 +245,7 @@ if (!isset($_SESSION['login'])) {
 </div>
 
 <?php echo $v1; ?>
-<?php include '../Blocs_HTML/footer.php';?>
+<?php include '../Blocs_HTML/footer.php'; ?>
 
 
 </body>

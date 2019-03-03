@@ -151,6 +151,7 @@ if (!isset($_SESSION['login'])) {
                 <div class="col-sm-10">
 
                     <select id="validationDefault04" class="form-control" name="departement">
+                        <option  value="750 Siège" >750 (Siège)</option>
                         <option value="<?php $del; ?>" selected><?php if ($del == 'null') {
     echo 'Sélectionner un département';
 } else {

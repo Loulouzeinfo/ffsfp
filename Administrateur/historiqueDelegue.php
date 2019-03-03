@@ -85,12 +85,15 @@ if (!isset($_SESSION['login'])) {
     <?php
 foreach ($tab as $key) {
     $var = '<tr>
-      <th scope="row">'.utf8_encode($key['deparetement']).'</th>';
+      <th scope="row">'.utf8_encode($key['deparetement']).'</th><td>';
 
-    $var .= '<td>
+    if (in_array('ADMINISTRATEUR', $tableau)) {
+        $var .= '
 
       <a href="historiqueDelegue.php?supp='.utf8_encode($key['deparetement']).'"><i class="fas fa-trash-alt"></i></a>&nbsp
       <a href="AjoutDelegation.php?editdelegue='.utf8_encode($key['deparetement']).'"><i class="fas fa-user-edit"></i></a>&nbsp;';
+    }
+
     $label = utf8_encode($key['deparetement']);
     $text = str_replace(' ', '', utf8_encode($key['deparetement']));
 

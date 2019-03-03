@@ -72,6 +72,7 @@ if (!isset($_SESSION['login'])) {
       <th scope="col">Tarification</th>
       <th scope="col">Année de cotisation</th>
       <th scope="col">Montant</th>
+      <th scope="col">Moyen de paiment</th>
 
     </tr>
   </thead>
@@ -81,7 +82,8 @@ if (!isset($_SESSION['login'])) {
        echo '<tr>
         <th scope="row">'.utf8_encode($key['tarification_historique']).'</th>
         <td>'.utf8_encode($key['libelle_annee']).'</td>
-        <td>'.utf8_encode($key['montant_historique']).' € </td>';
+        <td>'.utf8_encode($key['montant_historique']).' € </td>
+        <td>'.utf8_encode($key['moyen_paiment']).'</td>';
    }
    ?>
 

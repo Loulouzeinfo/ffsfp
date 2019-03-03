@@ -173,14 +173,12 @@ position: absolute;
 	padding: 80px 40px;
 	box-sizing: border-box;
 	background: rgba(0,0,0,.5);
-	float: left;
+	float:left;
 	display: inline-block;
 	color: white;
 	margin-top: 100px;
-	margin-bottom: : 100px;
-	    font-size: 12px;
-
-
+	margin-bottom:100px;
+	font-size: 12px;
 
 }
 

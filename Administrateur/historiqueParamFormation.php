@@ -154,6 +154,9 @@ foreach ($tab as $key) {
         </button>
       </div>
       <div class="modal-body">
+      <label> Nombre minimum de stagiaires est de : '.$key['minstrag'].'</label><br>
+      <label> Nombre maximum de stagiaires est de : '.$key['maxstag'].'</label><br>
+      <label> Nombre de formateurs est de : '.$key['nbrformateur'].'</label><br>
       <label> Prérequis: </label>';
     $preqi = "SELECT * FROM prerequis WHERE libelle_formation='$label'";
     $donnpreqi = $mysqli->query($preqi) or die(mysqli_error($mysqli));

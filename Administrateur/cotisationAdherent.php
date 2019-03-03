@@ -41,7 +41,7 @@ if (!isset($_SESSION['login'])) {
      cotisation.tarification=cotisationniveau.cotisationN AND cotisation.libelle_cotisation=cotisationniveau.anneCotisation AND id_personne='$id' ";
     $rqco = $mysqli->query($req) or die(mysqli_error($mysqli));
     $resco = $rqco->fetch_array();
-
+    $o = $resco['tarification'];
     $o = utf8_encode($resco['tarification']);
 
     $_SESSION['ses'] = array(
@@ -58,10 +58,10 @@ if (!isset($_SESSION['login'])) {
         if ($_POST['dateCheque'] && $_POST['montantCheque'] && $_POST['banqueCheque'] && $_POST['numerCheque']) {
             $dateCheque = $mysqli->real_escape_string(trim(verif($_POST['dateCheque'])));
             $montantCheque = $mysqli->real_escape_string(trim(verif($_POST['montantCheque'])));
-            $banqueCheque = iconv('UTF-8', 'ISO-8859-1//IGNORE', $_POST['banqueCheque']);
+            $banqueCheque = $_POST['banqueCheque'];
             $numerCheque = $mysqli->real_escape_string(trim(verif($_POST['numerCheque'])));
 
-            $ajout = "INSERT INTO cheque (id_personne,date_cheque,montant_cheque,banque_cheque,num_cheque,statut_cheque) VALUES ('$id','$dateCheque','$montantCheque','$banqueCheque','$numerCheque',0) ";
+            $ajout = "INSERT INTO cheque (id_personne,date_cheque,montant_cheque,banque_cheque,num_cheque,statut_cheque,tarification) VALUES ('$id','$dateCheque','$montantCheque','$banqueCheque','$numerCheque',0,'$o') ";
             insertDB($ajout);
             console_log('ajouter cheque');
             $v1 = '<script> dialogsuccess("Dés reception de votre chéque, votre cotisation sera validée","cotisationAdherent.php"); </script>';
@@ -77,7 +77,7 @@ if (!isset($_SESSION['login'])) {
             $banqueVirement = $mysqli->real_escape_string(trim(verif($_POST['banqueVirement'])));
             $libelleVirement = iconv('UTF-8', 'ISO-8859-1//IGNORE', $_POST['libelleVirement']);
 
-            $ajout = "INSERT INTO virement (id_personne,montant_virement,libelle_virement,banque_virement,date_virement,statut_virement) VALUES ('$id','$montantVirement','$libelleVirement','$banqueVirement','$dateVirement',0) ";
+            $ajout = "INSERT INTO virement (id_personne,montant_virement,libelle_virement,banque_virement,date_virement,statut_virement,tarification) VALUES ('$id','$montantVirement','$libelleVirement','$banqueVirement','$dateVirement',0,'$o') ";
             insertDB($ajout);
             console_log('ajouter Virement');
             $v1 = '<script> dialogsuccess("Dés reception de votre virement, votre cotisation sera validée","cotisationAdherent.php"); </script>';

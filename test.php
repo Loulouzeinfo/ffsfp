@@ -2,11 +2,8 @@
 
 include 'DB/base.php';
 include 'Fonction/fonction.php';
-$ad = iconv('UTF-8', 'ISO-8859-1//IGNORE', 'adhérent');
-$anne = intval(date('Y'));
-$date = date('d').'/'.date('m').'/'.$anne;
 
-echo $date;
+mkdir('file/Diplome/d', 0777);
 
 /*$requeteTarifica = "INSERT INTO cotisationniveau (id_personne,cotisationN,etat,anneCotisation) VALUES ('125d','$ad',0,'2098')";
 $mysqli->query($requeteTarifica) or die(mysqli_error($mysqli));*/
@@ -34,7 +31,7 @@ $mysqli->query($requeteTarifica) or die(mysqli_error($mysqli));*/
         <div class="form-group">
             <div class="form-check">
 
-                <input type="text" name="champs" disabled>
+                <input type="checkbox" name="champs" >
 
                 <input type="submit" name="submit">
 

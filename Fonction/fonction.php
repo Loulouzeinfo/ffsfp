@@ -168,6 +168,38 @@ function SaveCcaModel($file, $name)
     }
 }
 
+function SaveDiplomePersonne($file, $name, $libelle)
+{
+    if (!file_exists('../file/Diplome/'.$name['nom'])) {
+        mkdir('../file/Diplome/'.$name['nom'], 0777);
+    }
+    $path = '../file/Diplome/'.$name['nom'].'/'.$libelle;
+
+    $idPersonne = $name['id_personne'];
+
+    $file_name = $file['name'];
+    $tmp_name = $file['tmp_name'];
+
+    $file_extension = strrchr($file_name, '.');
+    $extension_autorisées = array('.PDF', '.pdf', '.doc', '.DOC', '.docx', '.DOCX');
+    $chemin = $path.'/'.$file_name;
+
+    if (in_array($file_extension, $extension_autorisées)) {
+        if (!file_exists('../file/Diplome/'.$name['nom'].'/'.$libelle)) {
+            mkdir($path, 0777);
+        }
+        move_uploaded_file($tmp_name, $chemin);
+
+        $sqlD = "INSERT INTO diplome_personne(libelleDiplome,urlDiplome,id_personne,status) VALUES ('$libelle','$chemin','$idPersonne',1)";
+        insertDB($sqlD);
+        console_log('requete sql');
+
+        return array('<script> dialogsuccess("Le diplôme a bien été enregistré ","diplome.php"); </script>', $chemin);
+    } else {
+        return array('<script> dialoginfo("Extension non autorisée ","diplome.php"); </script>');
+    }
+}
+
 function docx($chemin, $name)
 {
     include_once 'docxtemplate.class.php';

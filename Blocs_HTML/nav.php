@@ -63,7 +63,9 @@ while ($respro = $donpro->fetch_array()) {
         <a class="dropdown-item"style="pointer-events: none; cursor: default;" href="">Modèle </a>
         <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="modeleDiplome.php"> Modèles de documents </a></li></ul>
          <ul><li class="dropdown-submenu dropdown-item"> <a class=" dropdown-item" href="HistoriquesModeles.php"> Historiques  </a></li></ul>
+         <a class="dropdown-item " href="structure.php">Structure</a>
       </div>
+      
     </li>
        <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -81,42 +83,51 @@ while ($respro = $donpro->fetch_array()) {
 <?php
             }
        ?>
+
+
 <?php
-            if (in_array('ADHERENT', $tableau)) {
+            if (in_array('DELEGUE', $tableau)) {
                 ?>
-
-
-<li class="nav-item dropdown p">
+</li>
+       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        Mes données
+        Délégations
       </a>
-      
       <div class="dropdown-menu">
+        <a class="dropdown-item" href="historiqueDelegue.php">Gestion de délégations </a>
+        <a class="dropdown-item" href="">Ajouter un formateur</a>
+        <a class="dropdown-item" href="">Liste d'aptitude</a>
+        <a class="dropdown-item" href="">Certificat d'affiliation</a>
+        <a class="dropdown-item" href="">Gestion des formations</a>
 
-
-        <a class="dropdown-item" href="profile.php">Profil</a>
-        
-
+      </div>
 
     </li>
+    <?php
+            }
+       ?>
 
- <li class="nav-item dropdown p">
+
+<?php
+            if (in_array('FORMATEUR', $tableau)) {
+                ?>
+   <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         Formation
       </a>
-      
       <div class="dropdown-menu">
+        <a class="dropdown-item" href="historiqueDelegue.php">Gestion de délégations </a>
+        <a class="dropdown-item" href="AjoutDelegation.php">Ajouter une délégation</a>
 
+      </div>
 
-        <a class="dropdown-item" href="profile.php">Profil</a>
     </li>
 
-    
+    <?php
+            }
+       ?>
 
 
-
-            <?php
-            }  ?>
     <li class="nav-item dropdown p">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         Bonjour <?php echo $profile; ?>
@@ -125,8 +136,10 @@ while ($respro = $donpro->fetch_array()) {
       <div class="dropdown-menu">
 
 
-        <a class="dropdown-item" href="profile.php">Profil</a>
-        <a class="dropdown-item" href="#">Diplômes</a>
+        <a class="dropdown-item" href="profile.php">Mot de passe</a>
+        <a class="dropdown-item" href="diplome.php">Diplômes</a>
+        <a class="dropdown-item" href="historiquemodpersonne.php">Historique diplôme</a>
+        <a class="dropdown-item" href="mesdonnees.php">Mes données</a>
         <a class="dropdown-item" href="../Administrateur/cotisationAdherent.php">Payer ma cotisation</a>
         <a class="dropdown-item" href="../Administrateur/historiqueCotisation.php">Historique des paiments</a>
 

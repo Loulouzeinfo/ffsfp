@@ -40,7 +40,7 @@
 			
 			</form>
 		</div>
-		
+		<p>
 
 <?php    include("Blocs_HTML/politique.php"); ?>
 

@@ -13,7 +13,6 @@ $Prenom='Prénom';
 $immat='Immatriculation';
 $maill='';
 
-
 if(isset($_GET['rmail']) && isset($_GET['uid'])){
 
      if(!empty($_GET['rmail']) && !empty($_GET['uid'])){
